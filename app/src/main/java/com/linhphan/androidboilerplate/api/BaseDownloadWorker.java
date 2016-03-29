@@ -466,6 +466,9 @@ public class BaseDownloadWorker extends AsyncTask<String, Integer, Object> {
     }
 
     //=========== inner classes ====================================================================
+    public enum Method {
+        GET, POST
+    }
 
     /**
      * this class will be used to instance an object which is passed to an parser as a parameter to get the response code from server.

@@ -23,7 +23,7 @@ import java.lang.reflect.InvocationTargetException;
  */
 public abstract class BaseFragment extends Fragment {
 
-    public static BaseFragment newInstance(Class<?> c, Bundle bundle){
+    public static BaseFragment getInstance(Class<?> c, Bundle bundle){
         BaseFragment baseFragment = null;
         try {
             Constructor<?> constructor = c.getConstructors()[0];
