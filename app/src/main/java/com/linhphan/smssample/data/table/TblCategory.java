@@ -1,13 +1,13 @@
-package com.linhphan.smssample.data.model;
+package com.linhphan.smssample.data.table;
 
 import android.database.sqlite.SQLiteDatabase;
 
-import com.linhphan.androidboilerplate.data.model.BaseModel;
+import com.linhphan.androidboilerplate.data.table.BaseTable;
 
 /**
  * Created by linh on 29/03/2016.
  */
-public class TblCategory extends BaseModel {
+public class TblCategory extends BaseTable {
     public static final String TBL_NAME = "tbl_category";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";

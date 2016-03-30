@@ -29,7 +29,7 @@ public class SocialNetworkUtil {
 //        //com.example.facebook
 //        //com.facebook.android
 //        String facebookPackage = "com.facebook.katana";
-//        if (AppUtil.getInstance().isAppInstalled(context, facebookPackage)) {
+//        if (AppUtil.newInstance().isAppInstalled(context, facebookPackage)) {
 //            //using default intent
 ////            Intent intent = new Intent(Intent.ACTION_SEND);
 ////            intent.setType("image/*");
@@ -116,7 +116,7 @@ public class SocialNetworkUtil {
 //        List<String> permissionNeeds = Arrays.asList("publish_actions");
 //
 //        //this loginManager helps you eliminate adding a LoginButton to your UI
-//        LoginManager mLoginManager = LoginManager.getInstance();
+//        LoginManager mLoginManager = LoginManager.newInstance();
 //        mLoginManager.logInWithPublishPermissions((Activity) context, permissionNeeds);
 //        mLoginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 //            @Override
@@ -181,7 +181,7 @@ public class SocialNetworkUtil {
 //                    .iPadId("654321")
 //                    .build();
 //
-//            TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+//            TwitterSession session = TwitterCore.newInstance().getSessionManager().getActiveSession();
 //            Intent intent = new ComposerActivity.Builder(LanguageChoiceActivity.this).session(session).card(card).createIntent();
 //            startActivity(intent);
             Toast.makeText(context, "to use this feature, you must have an Twitter application is installed", Toast.LENGTH_SHORT).show();
