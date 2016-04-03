@@ -63,7 +63,7 @@ public class SocialNetworkUtil {
 //                    .build();
 //
 //            ShareDialog shareDialog = new ShareDialog((Activity) context);
-//            shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+//            shareDialog.setCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
 //                @Override
 //                public void onSuccess(Sharer.Result result) {
 //                    Toast.makeText(context, "your image has been shared", Toast.LENGTH_SHORT).show();
@@ -71,7 +71,7 @@ public class SocialNetworkUtil {
 //                }
 //
 //                @Override
-//                public void onCancel() {
+//                public void onRightButtonClicked() {
 //                    Toast.makeText(context, "sharing is canceled", Toast.LENGTH_SHORT).show();
 //
 //                }
@@ -93,7 +93,7 @@ public class SocialNetworkUtil {
 //                    }
 //
 //                    @Override
-//                    public void onCancel() {
+//                    public void onRightButtonClicked() {
 //                        Toast.makeText(context, "sharing is canceled", Toast.LENGTH_SHORT).show();
 //                    }
 //
@@ -118,14 +118,14 @@ public class SocialNetworkUtil {
 //        //this loginManager helps you eliminate adding a LoginButton to your UI
 //        LoginManager mLoginManager = LoginManager.newInstance();
 //        mLoginManager.logInWithPublishPermissions((Activity) context, permissionNeeds);
-//        mLoginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+//        mLoginManager.setCallback(callbackManager, new FacebookCallback<LoginResult>() {
 //            @Override
 //            public void onSuccess(LoginResult loginResult) {
 //                sharePhotoToFacebook(context, callbackManager, uri);
 //            }
 //
 //            @Override
-//            public void onCancel() {
+//            public void onRightButtonClicked() {
 //                Log.e(getClass().getName(), "login is canceled");
 //            }
 //

@@ -19,8 +19,6 @@ import com.linhphan.smssample.ui.fragment.ListMessage;
  */
 public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private SimpleCursorAdapter mAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +34,6 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
     @Override
     protected void init() {
         getSupportLoaderManager().initLoader(1, null, this);
-        mAdapter = new SimpleCursorAdapter(this, R.layout.item_row_message, null, null, null, 0);
     }
 
     @Override

@@ -14,4 +14,7 @@
     <string name="night_greetings_for_girls">night greeting for girls</string>
     <string name="night_greetings_for_boys">night greeting for Boys</string>
     <string name="valentine">valentine</string>
+
+
+    <string name="copied">copied</string>
 </resources>

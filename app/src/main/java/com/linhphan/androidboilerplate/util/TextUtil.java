@@ -1,5 +1,7 @@
 package com.linhphan.androidboilerplate.util;
 
+import com.linhphan.smssample.data.model.MessageModel;
+
 import java.util.Arrays;
 
 /**
@@ -47,6 +49,7 @@ public class TextUtil {
 
     /**
      * converts vietnamese string to vietnamese String without accent.
+     * @param s
      */
     public static String removeAccent(String s){
         StringBuilder sb = new StringBuilder(s);

@@ -14,8 +14,11 @@ import com.linhphan.androidboilerplate.util.Constant;
  * Created by linhphan on 11/11/15.
  */
 public class ConfirmDialog extends DialogFragment {
+    private int mRequestCode;
+    private String mLeftButton;
+    private String mRightBUtton;
 
-    ConfirmDialogCallback callback;
+    private ConfirmDialogCallback mCallback;
 
     @NonNull
     @Override
@@ -35,24 +38,44 @@ public class ConfirmDialog extends DialogFragment {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (callback != null)
-                            callback.onOk();
+                        if (mCallback != null) {
+                            mCallback.onLeftButtonClicked();
+                        }
+                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        mCallback.onRightButtonClicked();
                         dialog.dismiss();
                     }
                 })
                 .create();
     }
 
+    //============= setters and getters ============================================================
+    public int getRequestCode() {
+        return mRequestCode;
+    }
+
+    public void setRequestCode(int requestCode) {
+        this.mRequestCode = requestCode;
+    }
+
+    public void setLeftButtonTitle(String title) {
+        this.mLeftButton = title;
+    }
+
+    public void setRightButtonTitle(String title) {
+        this.mRightBUtton = title;
+    }
+
     /**
      * set up callback listeners to the dialog fragment
      * @param callback the callback handler
      */
-    public void registerCallback(ConfirmDialogCallback callback){
-        this.callback = callback;
+    public void setCallback(ConfirmDialogCallback callback){
+        this.mCallback = callback;
     }
 }
