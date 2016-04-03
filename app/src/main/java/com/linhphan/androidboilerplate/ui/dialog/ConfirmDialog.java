@@ -8,46 +8,38 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
 import com.linhphan.androidboilerplate.callback.ConfirmDialogCallback;
-import com.linhphan.androidboilerplate.util.Constant;
 
 /**
  * Created by linhphan on 11/11/15.
  */
 public class ConfirmDialog extends DialogFragment {
     private int mRequestCode;
-    private String mLeftButton;
-    private String mRightBUtton;
+    private String mNegativeButton;
+    private String mPositiveButton;
+    private String mTitle;
+    private String mMessage;
 
     private ConfirmDialogCallback mCallback;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-        Bundle bundle = getArguments();
-        String title = null;
-        String message = null;
-        if (bundle != null) {
-            title = bundle.getString(Constant.DIALOG_TITLE, "");
-            message = bundle.getString(Constant.DIALOG_MESSAGE, "");
-        }
-
         return new AlertDialog.Builder(getActivity())
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setTitle(mTitle)
+                .setMessage(mMessage)
+                .setPositiveButton(mPositiveButton, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (mCallback != null) {
-                            mCallback.onLeftButtonClicked();
+                            mCallback.onPositiveButtonClicked();
                         }
                         dialog.dismiss();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(mNegativeButton, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mCallback.onRightButtonClicked();
+                        mCallback.onNegativeButtonClicked();
                         dialog.dismiss();
                     }
                 })
@@ -63,12 +55,20 @@ public class ConfirmDialog extends DialogFragment {
         this.mRequestCode = requestCode;
     }
 
-    public void setLeftButtonTitle(String title) {
-        this.mLeftButton = title;
+    public void setNegativeButtonName(String title) {
+        this.mNegativeButton = title;
     }
 
-    public void setRightButtonTitle(String title) {
-        this.mRightBUtton = title;
+    public void setPositiveButtonName(String title) {
+        this.mPositiveButton = title;
+    }
+
+    public void setMessage(String message) {
+        this.mMessage = message;
+    }
+
+    public void setTitle(String title) {
+        this.mTitle = title;
     }
 
     /**

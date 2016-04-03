@@ -66,11 +66,11 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
                 TblMessage.COLUMN_ID,
                 TblMessage.COLUMN_CONTENT
         };
-        String selection = TblMessage.COLUMN_CAT_ID +"=?";
-        String selectionArg[] = {
-                String.valueOf(TblCategory.NIGHT_GREETING_GIRL_ID)
-        };
-        return new CursorLoader(getContext(), SMSProvider.CONTENT_URI, projection, selection, selectionArg, null);
+//        String selection = TblMessage.COLUMN_CAT_ID +"=?";
+//        String selectionArg[] = {
+//                String.valueOf(TblCategory.NIGHT_GREETING_GIRL_ID)
+//        };
+        return new CursorLoader(getContext(), SMSProvider.CONTENT_URI, projection, null, null, null);
     }
 
     @Override
@@ -92,27 +92,29 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
     //====== adapter callbacks
     @Override
     public void onSendButtonClicked(final MessageModel message) {
-        Toast.makeText(getContext(), message.getCatId(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), String.valueOf(message.getCatId()), Toast.LENGTH_SHORT).show();
         ConfirmDialog dialog = new ConfirmDialog();
-        dialog.setLeftButtonTitle("Ok");
-        dialog.setRightButtonTitle("Nope");
+        dialog.setMessage("do you want a message without vietnamese accent?");
+        dialog.setNegativeButtonName("nope");
+        dialog.setPositiveButtonName("ok");
         dialog.setCallback(new ConfirmDialogCallback() {
             @Override
-            public void onLeftButtonClicked() {
+            public void onPositiveButtonClicked() {
                 String sms = TextUtil.removeAccent(message.getContent());
                 openMessenger(sms);
             }
 
             @Override
-            public void onRightButtonClicked() {
+            public void onNegativeButtonClicked() {
                 openMessenger(message.getContent());
             }
         });
+        dialog.show(getFragmentManager(), ConfirmDialog.class.getName());
     }
 
     @Override
     public void onCopyButtonClicked(MessageModel message) {
-        Toast.makeText(getContext(), message.getCatId(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "copied", Toast.LENGTH_SHORT).show();
         ClipboardManager manager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText("Copied", message.getContent());
         manager.setPrimaryClip(clipData);
@@ -120,14 +122,14 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
 
     @Override
     public void onShareButtonClicked(MessageModel message) {
-        Toast.makeText(getContext(), message.getCatId(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), String.valueOf(message.getCatId()), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(Intent.ACTION_VIEW);
         startActivity(intent);
     }
 
     @Override
     public void onScheduleButtonClicked(MessageModel message) {
-        Toast.makeText(getContext(), message.getCatId(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), String.valueOf(message.getCatId()), Toast.LENGTH_SHORT).show();
 
     }
 

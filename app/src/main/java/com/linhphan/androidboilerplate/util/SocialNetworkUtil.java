@@ -71,7 +71,7 @@ public class SocialNetworkUtil {
 //                }
 //
 //                @Override
-//                public void onRightButtonClicked() {
+//                public void onNegativeButtonClicked() {
 //                    Toast.makeText(context, "sharing is canceled", Toast.LENGTH_SHORT).show();
 //
 //                }
@@ -93,7 +93,7 @@ public class SocialNetworkUtil {
 //                    }
 //
 //                    @Override
-//                    public void onRightButtonClicked() {
+//                    public void onNegativeButtonClicked() {
 //                        Toast.makeText(context, "sharing is canceled", Toast.LENGTH_SHORT).show();
 //                    }
 //
@@ -125,7 +125,7 @@ public class SocialNetworkUtil {
 //            }
 //
 //            @Override
-//            public void onRightButtonClicked() {
+//            public void onNegativeButtonClicked() {
 //                Log.e(getClass().getName(), "login is canceled");
 //            }
 //
