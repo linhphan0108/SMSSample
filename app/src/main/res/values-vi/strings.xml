@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tin Nhắn Mẫu</string>
+
+    <!-- languages-->
+    <string name="vietnamese">việt nam</string>
+    <string name="english">tiếng anh</string>
+    <string name="japanese">nhật bản</string>
+    <string name="korean">hàn quốc</string>
+    <string name="chinese">trung quốc</string>
+    <string name="thai">thái lan</string>
+
+    <!-- categories-->
+    <string name="love">Love</string>
+    <string name="night_greetings_for_girls">chúc bạn gái ngủ ngon</string>
+    <string name="night_greetings_for_boys">chúc bạn trai ngủ ngon</string>
+    <string name="valentine">valentine</string>
+</resources>

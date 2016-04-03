@@ -41,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, R.anim.sliding_exit_down);
+//        overridePendingTransition(0, R.anim.sliding_exit_down);
     }
 
     //==================== implemented methods =====================================================

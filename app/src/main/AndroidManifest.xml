@@ -11,10 +11,20 @@
         <activity android:name=".ui.activity.LanguageChoiceActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <activity android:name=".ui.activity.MainActivity" />
+
+        <provider
+            android:name=".data.contentprovider.SMSProvider"
+            android:authorities="com.linhphan.smssample.smsprovider"
+            android:exported="false" />
+
+        <provider
+            android:authorities="com.linhphan.smssample.catprovider"
+            android:name=".data.contentprovider.CategoriesProvider"
+            android:exported="false" />
+    </application>
 </manifest>

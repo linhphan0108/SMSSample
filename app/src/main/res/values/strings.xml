@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">SMSSample</string>
+
+    <!-- languages-->
+    <string name="vietnamese">vietnamese</string>
+    <string name="english">english</string>
+    <string name="japanese">Japanese</string>
+    <string name="korean">korean</string>
+    <string name="chinese">chinese</string>
+    <string name="thai">thai</string>
+
+    <!-- categories-->
+    <string name="love">Tình Yêu</string>
+    <string name="night_greetings_for_girls">night greeting for girls</string>
+    <string name="night_greetings_for_boys">night greeting for Boys</string>
+    <string name="valentine">valentine</string>
 </resources>

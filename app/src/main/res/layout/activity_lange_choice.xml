@@ -17,12 +17,14 @@
         android:gravity="center">
 
         <ImageView
+            android:id="@+id/img_vietnamese"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_flag_vietnam"
             android:layout_margin="10dp"/>
 
         <ImageView
+            android:id="@+id/img_english"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_flag_english"
@@ -36,12 +38,14 @@
         android:gravity="center">
 
         <ImageView
+            android:id="@+id/img_japanese"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_flag_japan"
             android:layout_margin="10dp"/>
 
         <ImageView
+            android:id="@+id/img_korean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_flag_korea"
@@ -55,12 +59,14 @@
         android:gravity="center">
 
         <ImageView
+            android:id="@+id/img_chinese"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_flag_china"
             android:layout_margin="10dp"/>
 
         <ImageView
+            android:id="@+id/img_thai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/img_flag_thailand"
