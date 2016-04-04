@@ -123,8 +123,11 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
     @Override
     public void onShareButtonClicked(MessageModel message) {
         Toast.makeText(getContext(), String.valueOf(message.getCatId()), Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        startActivity(intent);
+        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, message.getContent());
+        startActivity(Intent.createChooser(sharingIntent, "Choose an App"));
     }
 
     @Override
