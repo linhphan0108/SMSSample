@@ -1,5 +1,6 @@
 package com.linhphan.smssample.ui.fragment;
 
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -24,6 +26,7 @@ import com.linhphan.smssample.data.model.MessageModel;
 import com.linhphan.smssample.data.table.TblCategory;
 import com.linhphan.smssample.data.table.TblMessage;
 import com.linhphan.smssample.ui.adapter.ListSMSCursorAdapter;
+import com.linhphan.smssample.util.Constant;
 
 /**
  * Created by linh on 02/04/2016.
@@ -133,7 +136,7 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
     @Override
     public void onScheduleButtonClicked(MessageModel message) {
         Toast.makeText(getContext(), String.valueOf(message.getCatId()), Toast.LENGTH_SHORT).show();
-
+        sendMessageDirectly();
     }
 
     //================= inner methods ==============================================================
@@ -143,5 +146,18 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
         intent.setType("vnd.android-dir/mms-sms");
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         startActivity(intent);
+    }
+
+    private void sendMessageDirectly(){
+        String ninhPHoneNumber = "01632131479";
+        String message = "sent from SMSSample app developed by linh";
+        String myPhoneNumber = "01685918345";
+        Intent sentIntent = new Intent(Constant.INTENT_FLAG_SMS_SENT);
+        Intent deliveryIntent = new Intent(Constant.INTENT_FLAG_SMS_DELIVERY);
+        PendingIntent sentPendingIntent = PendingIntent.getBroadcast(getContext(), Constant.REQUSET_CODE_MESSAGE_SENT, sentIntent, 0);
+        PendingIntent deliveryPendingIntent =PendingIntent.getBroadcast(getContext(), Constant.REQUSET_CODE_MESSAGE_DELIVERED, deliveryIntent, 0);
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(ninhPHoneNumber, null, message, sentPendingIntent, deliveryPendingIntent);
+        Logger.d(getClass().getName(), "message will be sent to "+ ninhPHoneNumber);
     }
 }

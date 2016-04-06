@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.linhphan.smssample">
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +18,13 @@
         </activity>
 
         <activity android:name=".ui.activity.MainActivity" />
+
+        <receiver android:name=".service.SmsReceiver">
+            <intent-filter>
+                <action android:name="com.linhphan.smssample.sms_sent" />
+                <action android:name="com.linhphan.smssample.sms_delivery" />
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name=".data.contentprovider.SMSProvider"
