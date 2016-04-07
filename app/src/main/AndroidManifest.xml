@@ -3,6 +3,7 @@
     package="com.linhphan.smssample">
 
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -23,6 +24,7 @@
             <intent-filter>
                 <action android:name="com.linhphan.smssample.sms_sent" />
                 <action android:name="com.linhphan.smssample.sms_delivery" />
+                <action android:name="com.linhphan.smssample.alarm_sent" />
             </intent-filter>
         </receiver>
 

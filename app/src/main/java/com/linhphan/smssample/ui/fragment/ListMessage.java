@@ -1,5 +1,6 @@
 package com.linhphan.smssample.ui.fragment;
 
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -10,7 +11,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -23,17 +23,17 @@ import com.linhphan.androidboilerplate.util.TextUtil;
 import com.linhphan.smssample.R;
 import com.linhphan.smssample.data.contentprovider.SMSProvider;
 import com.linhphan.smssample.data.model.MessageModel;
-import com.linhphan.smssample.data.table.TblCategory;
 import com.linhphan.smssample.data.table.TblMessage;
 import com.linhphan.smssample.ui.adapter.ListSMSCursorAdapter;
 import com.linhphan.smssample.util.Constant;
+
+import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by linh on 02/04/2016.
  */
 public class ListMessage extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor>, ListSMSCursorAdapter.ClickCallback{
-
-    private ListView mLvListMessage;
 
     private ListSMSCursorAdapter mAdapter;
 
@@ -51,9 +51,9 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
 
     @Override
     protected void getWidgets(View root, Bundle savedInstanceState) {
-        mLvListMessage = (ListView) root.findViewById(R.id.lv_list_message);
+        ListView lvListMessage = (ListView) root.findViewById(R.id.lv_list_message);
 
-        mLvListMessage.setAdapter(mAdapter);
+        lvListMessage.setAdapter(mAdapter);
     }
 
     @Override
@@ -136,7 +136,7 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
     @Override
     public void onScheduleButtonClicked(MessageModel message) {
         Toast.makeText(getContext(), String.valueOf(message.getCatId()), Toast.LENGTH_SHORT).show();
-        sendMessageDirectly();
+        scheduleAlarm(message.getContent());
     }
 
     //================= inner methods ==============================================================
@@ -148,16 +148,15 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
         startActivity(intent);
     }
 
-    private void sendMessageDirectly(){
-        String ninhPHoneNumber = "01632131479";
-        String message = "sent from SMSSample app developed by linh";
-        String myPhoneNumber = "01685918345";
-        Intent sentIntent = new Intent(Constant.INTENT_FLAG_SMS_SENT);
-        Intent deliveryIntent = new Intent(Constant.INTENT_FLAG_SMS_DELIVERY);
-        PendingIntent sentPendingIntent = PendingIntent.getBroadcast(getContext(), Constant.REQUSET_CODE_MESSAGE_SENT, sentIntent, 0);
-        PendingIntent deliveryPendingIntent =PendingIntent.getBroadcast(getContext(), Constant.REQUSET_CODE_MESSAGE_DELIVERED, deliveryIntent, 0);
-        SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(ninhPHoneNumber, null, message, sentPendingIntent, deliveryPendingIntent);
-        Logger.d(getClass().getName(), "message will be sent to "+ ninhPHoneNumber);
+    private void scheduleAlarm(String message){
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        calendar.add(Calendar.SECOND, 10);
+        long oneMinuteAfter = calendar.getTimeInMillis();
+        int requestCode = (int) (Math.random()*100 + 100);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(Constant.INTENT_FLAG_ALARM_SENT);
+        alarmIntent.putExtra(Constant.ARG_MESSAGE, message);
+        PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(getContext(), requestCode, alarmIntent, 0);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, oneMinuteAfter, alarmPendingIntent);
     }
 }

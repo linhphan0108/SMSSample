@@ -15,9 +15,10 @@ public class NotificationUtil {
      * show notification progress on notification bar. this will show the progress of downloading.
      * @param contentText the message will be showed in the notification
      */
-    public static void showNotificationProgress(Context context, String contentText, int NotificationId) {
+    public static void showNotificationProgress(Context context, String title, String contentText, int NotificationId) {
         Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
                 .setContentText(contentText)
                 .build();
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
