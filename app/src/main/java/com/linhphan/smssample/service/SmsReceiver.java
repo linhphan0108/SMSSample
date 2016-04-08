@@ -23,46 +23,40 @@ public class SmsReceiver extends BroadcastReceiver {
         String action = intent.getAction();
         if (Constant.INTENT_FLAG_SMS_SENT.equals(action)){
             Logger.d(getClass().getName(), "sms was sent");
-
+            int rand = (int) (Math.random() * 300);
             switch (getResultCode()){
                 case Activity.RESULT_OK:
-//                    Toast.makeText(getBaseContext(), "SMS sent "+k,Toast.LENGTH_SHORT).show();
+                    String title = "sms was sent to "+ intent.getStringExtra(Constant.ARG_PHONE_NUMBER);
+                    String message = intent.getStringExtra(Constant.ARG_MESSAGE);
+                    NotificationUtil.showNotificationProgress(context, title, message, rand);
                     break;
                 case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-//                    Toast.makeText(getBaseContext(), "Generic failure",Toast.LENGTH_SHORT).show();
+                    NotificationUtil.showNotificationProgress(context, "Error", "Generic failure", rand);
                     break;
                 case SmsManager.RESULT_ERROR_NO_SERVICE:
-//                    Toast.makeText(getBaseContext(), "No service",Toast.LENGTH_SHORT).show();
+                    NotificationUtil.showNotificationProgress(context, "Error", "No service", rand);
                     break;
                 case SmsManager.RESULT_ERROR_NULL_PDU:
-//                    Toast.makeText(getBaseContext(), "Null PDU",Toast.LENGTH_SHORT).show();
+                    NotificationUtil.showNotificationProgress(context, "Error", "No PDU", rand);
                     break;
                 case SmsManager.RESULT_ERROR_RADIO_OFF:
-//                    Toast.makeText(getBaseContext(), "Radio off",Toast.LENGTH_SHORT).show();
+                    NotificationUtil.showNotificationProgress(context, "Error", "Radio is off", rand);
                     break;
             }
-
-            int rand = (int) (Math.random() * 300);
-            String title = "sms was sent to "+ intent.getStringExtra(Constant.ARG_PHONE_NUMBER);
-            String message = intent.getStringExtra(Constant.ARG_MESSAGE);
-            NotificationUtil.showNotificationProgress(context, title, message, rand);
 
         }else if (Constant.INTENT_FLAG_SMS_DELIVERY.equals(action)){
             Logger.d(getClass().getName(), "sms was delivered");
-
+            int rand = (int) (Math.random() * 200);
             switch (getResultCode()){
                 case Activity.RESULT_OK:
-//                    Toast.makeText(getBaseContext(), "SMS delivered", Toast.LENGTH_SHORT).show();
+                    String title = "sms was delivered to "+ intent.getStringExtra(Constant.ARG_PHONE_NUMBER);
+                    String message = intent.getStringExtra(Constant.ARG_MESSAGE);
+                    NotificationUtil.showNotificationProgress(context, title, message, rand);
                     break;
                 case Activity.RESULT_CANCELED:
-//                    Toast.makeText(getBaseContext(), "SMS not delivered", Toast.LENGTH_SHORT).show();
+                    NotificationUtil.showNotificationProgress(context, "Error", "SMS wasn't delivered", rand);
                     break;
             }
-
-            int rand = (int) (Math.random() * 200);
-            String title = "sms was delivered to "+ intent.getStringExtra(Constant.ARG_PHONE_NUMBER);
-            String message = intent.getStringExtra(Constant.ARG_MESSAGE);
-            NotificationUtil.showNotificationProgress(context, title, message, rand);
 
         }else if (Constant.INTENT_FLAG_ALARM_SENT.equals(action)){
             int rand = (int) (Math.random() * 100);

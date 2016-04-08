@@ -17,9 +17,11 @@ import android.widget.Toast;
 
 import com.linhphan.androidboilerplate.callback.ConfirmDialogCallback;
 import com.linhphan.androidboilerplate.ui.dialog.ConfirmDialog;
+import com.linhphan.androidboilerplate.ui.dialog.DateAndTimePickerDialog;
 import com.linhphan.androidboilerplate.ui.fragment.BaseFragment;
 import com.linhphan.androidboilerplate.util.Logger;
 import com.linhphan.androidboilerplate.util.TextUtil;
+import com.linhphan.androidboilerplate.util.ViewUtil;
 import com.linhphan.smssample.R;
 import com.linhphan.smssample.data.contentprovider.SMSProvider;
 import com.linhphan.smssample.data.model.MessageModel;
@@ -28,6 +30,7 @@ import com.linhphan.smssample.ui.adapter.ListSMSCursorAdapter;
 import com.linhphan.smssample.util.Constant;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -135,8 +138,8 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
 
     @Override
     public void onScheduleButtonClicked(MessageModel message) {
-        Toast.makeText(getContext(), String.valueOf(message.getCatId()), Toast.LENGTH_SHORT).show();
-        scheduleAlarm(message.getContent());
+        Toast.makeText(getContext(), String.valueOf(message.getCatId()), Toast.LENGTH_LONG).show();
+        showDateTimePicker(message.getContent());
     }
 
     //================= inner methods ==============================================================
@@ -148,15 +151,35 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
         startActivity(intent);
     }
 
-    private void scheduleAlarm(String message){
-        Calendar calendar = Calendar.getInstance(Locale.getDefault());
-        calendar.add(Calendar.SECOND, 10);
-        long oneMinuteAfter = calendar.getTimeInMillis();
+    private void scheduleAlarm(long timeInMillis, String message){
         int requestCode = (int) (Math.random()*100 + 100);
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(Constant.INTENT_FLAG_ALARM_SENT);
         alarmIntent.putExtra(Constant.ARG_MESSAGE, message);
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(getContext(), requestCode, alarmIntent, 0);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, oneMinuteAfter, alarmPendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
+
+        Calendar calendar = Calendar.getInstance(Locale.getDefault());
+        long now = calendar.getTimeInMillis();
+        long duration = now - timeInMillis;
+        calendar.setTimeInMillis(timeInMillis);
+        Date date = calendar.getTime();
+        Toast.makeText(getContext(), "sms will sent in "+ String.valueOf(duration) +" at "+ date.toString(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showDateTimePicker(final String message){
+        Calendar calendarNow = Calendar.getInstance(Locale.getDefault());
+        long now = calendarNow.getTimeInMillis();
+        DateAndTimePickerDialog picker = new DateAndTimePickerDialog();
+        picker.setMinDate(now);
+        picker.setMinHour(calendarNow.get(Calendar.HOUR_OF_DAY));
+        picker.setMinMinute(calendarNow.get(Calendar.MINUTE));
+        picker.setCallback(new DateAndTimePickerDialog.OnPickerFinish() {
+            @Override
+            public void onFinish(long timeInMillis) {
+                scheduleAlarm(timeInMillis, message);
+            }
+        });
+        picker.show(getFragmentManager(), DateAndTimePickerDialog.class.getName());
     }
 }

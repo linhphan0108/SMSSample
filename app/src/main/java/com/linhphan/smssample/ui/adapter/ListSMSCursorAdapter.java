@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.linhphan.androidboilerplate.util.Logger;
+import com.linhphan.androidboilerplate.util.ViewUtil;
 import com.linhphan.smssample.R;
 import com.linhphan.smssample.data.model.MessageModel;
 import com.linhphan.smssample.data.table.TblMessage;
@@ -56,24 +57,28 @@ public class ListSMSCursorAdapter extends CursorAdapter{
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ViewUtil.lockView(v);
                 mCallback.onSendButtonClicked(model);
             }
         });
         btnCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ViewUtil.lockView(v);
                 mCallback.onCopyButtonClicked(model);
             }
         });
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ViewUtil.lockView(v);
                 mCallback.onShareButtonClicked(model);
             }
         });
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ViewUtil.lockView(v);
                 mCallback.onScheduleButtonClicked(model);
             }
         });
