@@ -71,6 +71,5 @@ public class LanguageChoiceActivity extends BaseActivity implements View.OnClick
     private void gotoMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        finish();
     }
 }

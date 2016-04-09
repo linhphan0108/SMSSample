@@ -15,6 +15,9 @@
     <string name="night_greetings_for_boys">night greeting for Boys</string>
     <string name="valentine">valentine</string>
 
+    <!--drawer navigation-->
+    <string name="openDrawer">opened</string>
+    <string name="closeDrawer">closed</string>
 
     <string name="copied">copied</string>
     <string name="ok">OK</string>

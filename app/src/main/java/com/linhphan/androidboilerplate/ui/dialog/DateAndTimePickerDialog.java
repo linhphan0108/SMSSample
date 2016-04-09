@@ -154,11 +154,18 @@ public class DateAndTimePickerDialog extends DialogFragment implements TimePicke
     }
 
     private void setupPicker(){
-        if (mMaxDate > mMinDate) {
+        if (mMinDate <= 0 && mMaxDate > 0){
+            mDatePicker.setMaxDate(mMaxDate);
+
+        }else if (mMinDate > 0 && mMaxDate <= 0){
+            mDatePicker.setMinDate(mMinDate);
+
+        }else if(mMinDate > 0 && mMaxDate > 0 && mMinDate < mMaxDate){
             mDatePicker.setMaxDate(mMaxDate);
             mDatePicker.setMinDate(mMinDate);
+
         }else{
-            Logger.d(getClass().getName(), "max date should be greater than min date");
+            Logger.d(getClass().getName(), "max date and min date is invalided");
         }
     }
 

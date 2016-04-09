@@ -14,10 +14,12 @@
             android:id="@+id/img_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/star_big_on"
+            android:src="@drawable/selector_star"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:clickable="true"
+            android:focusable="true"/>
 
         <TextView
             android:layout_below="@id/img_star"

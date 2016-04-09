@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -36,11 +37,25 @@ import java.util.Locale;
 /**
  * Created by linh on 02/04/2016.
  */
-public class ListMessage extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor>, ListSMSCursorAdapter.ClickCallback{
+public class ListMessageFragment extends BaseFragment implements LoaderManager.LoaderCallbacks<Cursor>, ListSMSCursorAdapter.ClickCallback{
+    public static final String ARG_CATEGORY_ID = "ARG_CATEGORY_ID";
 
     private ListSMSCursorAdapter mAdapter;
 
+    private int mCatId;
+
     //================= overridden methods =========================================================
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        if (getArguments() != null){
+            Bundle bundle = getArguments();
+            mCatId = bundle.getInt(ARG_CATEGORY_ID);
+        }
+
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     protected int getFragmentLayoutResource() {
         return R.layout.fragment_list_message;
@@ -68,15 +83,13 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Logger.d(getClass().getName(), "onCreateLoader");
-        String projection[] = {
-                TblMessage.COLUMN_ID,
-                TblMessage.COLUMN_CONTENT
+        Logger.d(getClass().getName(), "category id = "+ mCatId);
+
+        String selection = TblMessage.COLUMN_CAT_ID +"=?";
+        String selectionArg[] = {
+                String.valueOf(mCatId)
         };
-//        String selection = TblMessage.COLUMN_CAT_ID +"=?";
-//        String selectionArg[] = {
-//                String.valueOf(TblCategory.NIGHT_GREETING_GIRL_ID)
-//        };
-        return new CursorLoader(getContext(), SMSProvider.CONTENT_URI, projection, null, null, null);
+        return new CursorLoader(getContext(), SMSProvider.CONTENT_URI, null, selection, selectionArg, null);
     }
 
     @Override
@@ -85,6 +98,7 @@ public class ListMessage extends BaseFragment implements LoaderManager.LoaderCal
         Logger.d(getClass().getName(), "onLoadFinished");
         if (data != null){
             Logger.e(getClass().getName(), "number of rows in table message: "+ data.getCount());
+            Toast.makeText(getContext(), "number of rows "+ data.getCount(), Toast.LENGTH_SHORT).show();
         }
     }
 

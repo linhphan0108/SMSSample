@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.linhphan.androidboilerplate.util.Logger;
@@ -44,16 +45,27 @@ public class ListSMSCursorAdapter extends CursorAdapter{
         Button btnCopy = (Button) view.findViewById(R.id.btn_copy);
         Button btnShare = (Button) view.findViewById(R.id.btn_share);
         Button btnSchedule = (Button) view.findViewById(R.id.btn_schedule);
+        ImageView imgStar = (ImageView) view.findViewById(R.id.img_star);
 
+        //== get index
         int idIndex = cursor.getColumnIndex(TblMessage.COLUMN_ID);
         int contentIndex = cursor.getColumnIndex(TblMessage.COLUMN_CONTENT);
+        int starIndex = cursor.getColumnIndex(TblMessage.COLUMN_STARED);
+
+        //== get data
         int id = cursor.getInt(idIndex);
         String content = cursor.getString(contentIndex);
+        boolean stared = cursor.getInt(starIndex) > 0;
+
+        //== create the message model
         final MessageModel model = new MessageModel();
         model.setCatId(id);
         model.setContent(content);
 
         txtContent.setText(content);
+        imgStar.setSelected(stared);
+
+        //== set click event handlers
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,6 +92,14 @@ public class ListSMSCursorAdapter extends CursorAdapter{
             public void onClick(View v) {
                 ViewUtil.lockView(v);
                 mCallback.onScheduleButtonClicked(model);
+            }
+        });
+
+        imgStar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewUtil.lockView(v);
+                v.setSelected(!v.isSelected());
             }
         });
     }
