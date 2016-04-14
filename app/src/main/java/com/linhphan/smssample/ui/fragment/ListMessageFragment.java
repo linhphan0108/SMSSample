@@ -22,9 +22,9 @@ import com.linhphan.androidboilerplate.ui.dialog.DateAndTimePickerDialog;
 import com.linhphan.androidboilerplate.ui.fragment.BaseFragment;
 import com.linhphan.androidboilerplate.util.Logger;
 import com.linhphan.androidboilerplate.util.TextUtil;
-import com.linhphan.androidboilerplate.util.ViewUtil;
 import com.linhphan.smssample.R;
 import com.linhphan.smssample.data.contentprovider.SMSProvider;
+import com.linhphan.smssample.data.model.MessageWrapper;
 import com.linhphan.smssample.data.model.MessageModel;
 import com.linhphan.smssample.data.table.TblMessage;
 import com.linhphan.smssample.ui.adapter.ListSMSCursorAdapter;
@@ -153,7 +153,12 @@ public class ListMessageFragment extends BaseFragment implements LoaderManager.L
     @Override
     public void onScheduleButtonClicked(MessageModel message) {
         Toast.makeText(getContext(), String.valueOf(message.getCatId()), Toast.LENGTH_LONG).show();
-        showDateTimePicker(message.getContent());
+//        String sms = "160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters, 160 characters";
+        String tamPHoneNumber = "0978992209";
+        String ninh = "01632131479";
+        MessageWrapper messageWrapper = new MessageWrapper(message);
+        messageWrapper.setDestinationPhoneNumber(tamPHoneNumber);
+        showDateTimePicker(messageWrapper);
     }
 
     //================= inner methods ==============================================================
@@ -165,11 +170,13 @@ public class ListMessageFragment extends BaseFragment implements LoaderManager.L
         startActivity(intent);
     }
 
-    private void scheduleAlarm(long timeInMillis, String message){
+    private void scheduleAlarm(long timeInMillis, MessageWrapper messageWrapper){
         int requestCode = (int) (Math.random()*100 + 100);
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable(Constant.ARG_BUNDLE_MESSAGE, messageWrapper);
         Intent alarmIntent = new Intent(Constant.INTENT_FLAG_ALARM_SENT);
-        alarmIntent.putExtra(Constant.ARG_MESSAGE, message);
+        alarmIntent.putExtra(Constant.ARG_INTENT_MESSAGE, messageWrapper.objectToJson());
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(getContext(), requestCode, alarmIntent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 
@@ -181,7 +188,7 @@ public class ListMessageFragment extends BaseFragment implements LoaderManager.L
         Toast.makeText(getContext(), "sms will sent in "+ String.valueOf(duration) +" at "+ date.toString(), Toast.LENGTH_SHORT).show();
     }
 
-    private void showDateTimePicker(final String message){
+    private void showDateTimePicker(final MessageWrapper messageWrapper){
         Calendar calendarNow = Calendar.getInstance(Locale.getDefault());
         long now = calendarNow.getTimeInMillis();
         DateAndTimePickerDialog picker = new DateAndTimePickerDialog();
@@ -191,7 +198,8 @@ public class ListMessageFragment extends BaseFragment implements LoaderManager.L
         picker.setCallback(new DateAndTimePickerDialog.OnPickerFinish() {
             @Override
             public void onFinish(long timeInMillis) {
-                scheduleAlarm(timeInMillis, message);
+                messageWrapper.setDue(timeInMillis);
+                scheduleAlarm(timeInMillis, messageWrapper);
             }
         });
         picker.show(getFragmentManager(), DateAndTimePickerDialog.class.getName());

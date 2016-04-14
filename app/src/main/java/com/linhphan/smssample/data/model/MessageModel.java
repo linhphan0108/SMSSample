@@ -12,6 +12,19 @@ public class MessageModel extends BaseModel {
     private String mTranslation;
     private boolean mStared;
 
+    public MessageModel() {
+    }
+
+    public MessageModel(MessageModel model) {
+        if (model != null) {
+            this.mLangId = model.getLangId();
+            this.mCatId = model.getCatId();
+            this.mContent = model.getContent();
+            this.mTranslation = model.getTranslation();
+            this.mStared = model.isStared();
+        }
+    }
+
     public int getLangId() {
         return mLangId;
     }
@@ -50,5 +63,15 @@ public class MessageModel extends BaseModel {
 
     public void setStared(boolean stared) {
         this.mStared = stared;
+    }
+
+    @Override
+    public String objectToJson() {
+        return null;
+    }
+
+    @Override
+    public <T extends BaseModel> T jsonToObject(String json) {
+        return null;
     }
 }

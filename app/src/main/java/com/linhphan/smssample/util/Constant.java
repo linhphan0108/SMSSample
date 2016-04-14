@@ -12,7 +12,8 @@ public class Constant {
     public static final int REQUEST_CODE_MESSAGE_SENT = 2;
     public static final int REQUEST_CODE_MESSAGE_DELIVERED = 3;
 
-    public static final String ARG_MESSAGE = "ARG_MESSAGE";
+    public static final String ARG_INTENT_MESSAGE = "ARG_INTENT_MESSAGE";
+    public static final String ARG_BUNDLE_MESSAGE = "ARG_BUNDLE_MESSAGE";
     public static final String ARG_PHONE_NUMBER = "ARG_PHONE_NUMBER";
 
 }

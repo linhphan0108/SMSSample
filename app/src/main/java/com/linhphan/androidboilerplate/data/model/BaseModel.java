@@ -13,4 +13,8 @@ public abstract class BaseModel {
     public void setId(int id) {
         this.mId = id;
     }
+
+    public abstract String objectToJson();
+    public abstract <T extends BaseModel> T jsonToObject(String json);
+
 }

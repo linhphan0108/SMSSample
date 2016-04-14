@@ -20,4 +20,14 @@ public class CatAndLangModel extends BaseModel {
     public String toString() {
         return "id: "+ String.valueOf(mId) + ", name: "+ mName;
     }
+
+    @Override
+    public String objectToJson() {
+        return null;
+    }
+
+    @Override
+    public <T extends BaseModel> T jsonToObject(String json) {
+        return null;
+    }
 }
