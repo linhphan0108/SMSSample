@@ -1,41 +1,55 @@
 package com.linhphan.smssample.data.model;
 
+import android.net.Uri;
+import android.os.Parcel;
+
 import com.linhphan.androidboilerplate.data.model.BaseModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
-
 /**
- * this class is used to wrap an instance of {@link MessageModel}
+ * this class is used to wrap an instance of {@link SmsModel}
  * besides, it includes some fields more for sending an message.
  * such as id, destination phone number, etc,..
  * Created by linh on 13/04/2016.
  */
-public class MessageWrapper extends MessageModel implements Serializable{
-
-    private static final long serialVersionUID = 99L;
-
+public class SmsWrapper extends SmsModel {
     private long mDue;//==
     private String mError;//== log any error during sending message
     private String mDestinationPhoneNumber;
+    private String mContactName;
+    private Uri mCoverUri;
     private int mPartsSize;//== the message content will be divided to multiple parts
     private int mSentTrack;
     private int mDeliveredTrack;
 
     //========== constructors ======================================================================
-    public MessageWrapper() {
+    public SmsWrapper() {
         super();
     }
 
-    public MessageWrapper(MessageModel model) {
+    public SmsWrapper(SmsModel model) {
         this.setId(model.getId());
         this.setCatId(model.getCatId());
         this.setLangId(model.getLangId());
         this.setContent(model.getContent());
         this.setTranslation(model.getContent());
         this.setStared(model.isStared());
+    }
+
+    public SmsWrapper(Parcel in) {
+        setLangId(in.readInt());
+        setCatId(in.readInt());
+        setContent(in.readString());
+        setTranslation(in.readString());
+        setStared(in.readByte() != 0);
+        this.mDue = in.readInt();
+        this.mError = in.readString();
+        this.mDestinationPhoneNumber = in.readString();
+        this.mPartsSize = in.readInt();
+        this.mSentTrack = in.readInt();
+        this.mDeliveredTrack = in.readInt();
     }
 
     //========== setters and getters  ==============================================================
@@ -63,6 +77,22 @@ public class MessageWrapper extends MessageModel implements Serializable{
 
     public void setDestinationPhoneNumber(String destinationPhoneNumber) {
         this.mDestinationPhoneNumber = destinationPhoneNumber;
+    }
+
+    public String getContactName() {
+        return mContactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.mContactName = contactName;
+    }
+
+    public Uri getCoverUri() {
+        return mCoverUri;
+    }
+
+    public void setCoverUri(Uri coverUri) {
+        this.mCoverUri = coverUri;
     }
 
     public long getDue() {
@@ -137,4 +167,38 @@ public class MessageWrapper extends MessageModel implements Serializable{
         }
         return (T) this;
     }
+
+    //=== start parcelable's methods
+    public static final Creator<SmsWrapper> CREATOR = new Creator<SmsWrapper>() {
+        @Override
+        public SmsWrapper createFromParcel(Parcel in) {
+            return new SmsWrapper(in);
+        }
+
+        @Override
+        public SmsWrapper[] newArray(int size) {
+            return new SmsWrapper[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(getLangId());
+        dest.writeInt(getCatId());
+        dest.writeString(getContent());
+        dest.writeString(getTranslation());
+        dest.writeByte((byte) (isStared()? 1 : 0));
+        dest.writeLong(mDue);
+        dest.writeString(mError);
+        dest.writeString(mDestinationPhoneNumber);
+        dest.writeInt(mPartsSize);
+        dest.writeInt(mSentTrack);
+        dest.writeInt(mDeliveredTrack);
+    }
+    //=== end parcelable's methods
 }

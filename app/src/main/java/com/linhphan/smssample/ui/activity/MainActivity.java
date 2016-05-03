@@ -12,19 +12,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import com.linhphan.androidboilerplate.ui.activity.BaseActivity;
 import com.linhphan.androidboilerplate.util.Logger;
 import com.linhphan.smssample.R;
 import com.linhphan.smssample.data.contentprovider.CategoriesProvider;
 import com.linhphan.smssample.data.table.TblCategory;
-import com.linhphan.smssample.ui.fragment.ListMessageFragment;
+import com.linhphan.smssample.ui.fragment.ListSentSmsFragment;
+import com.linhphan.smssample.ui.fragment.ListSmsFragment;
 
 /**
  * Created by linh on 02/04/2016.
  */
 public class MainActivity extends BaseActivity implements LoaderManager.LoaderCallbacks<Cursor>, NavigationView.OnNavigationItemSelectedListener {
+
+    private final int SENT_MESSAGE_CAT_ID = 9898;
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -85,7 +87,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
             Menu menu = navigationView.getMenu();
             // add menu items
-            menu.add(0, id, Menu.NONE, name);
+//            menu.add(0, id, Menu.NONE, name);
 //            for (int i=0; i< 4; i++){
 //                // add submenu item
 //                SubMenu subMenu = menu.addSubMenu(i, i, i, "Menu "+ i);
@@ -101,6 +103,9 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
                 menu.add(0, id, Menu.NONE, name);
             }
+
+            //sent message category
+            menu.add(0, SENT_MESSAGE_CAT_ID, Menu.NONE, getString(R.string.sent_message));
 
 //            for (int i = 0, count = navigationView.getChildCount(); i < count; i++) {
 //                final View child = navigationView.getChildAt(i);
@@ -124,7 +129,11 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         drawerLayout.closeDrawers();
         switch (menuItem.getGroupId()){
             case 0:
-                openListMessage(menuItem.getItemId());
+                if (menuItem.getItemId() == SENT_MESSAGE_CAT_ID){
+                    openListSentMessage();
+                }else {
+                    openListMessage(menuItem.getItemId());
+                }
                 break;
             default:
                 break;
@@ -162,7 +171,11 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
 
     private void openListMessage(int catId){
         Bundle bundle = new Bundle();
-        bundle.putInt(ListMessageFragment.ARG_CATEGORY_ID, catId);
-        replaceFragment(R.id.fl_main_content, ListMessageFragment.class, false, bundle, null);
+        bundle.putInt(ListSmsFragment.ARG_CATEGORY_ID, catId);
+        replaceFragment(R.id.fl_main_content, ListSmsFragment.class, false, bundle, null);
+    }
+
+    private void openListSentMessage(){
+        replaceFragment(R.id.fl_main_content, ListSentSmsFragment.class, false, null, null);
     }
 }

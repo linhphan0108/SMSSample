@@ -12,10 +12,10 @@ import com.linhphan.smssample.R;
  */
 public class NotificationUtil {
     /**
-     * show notification progress on notification bar. this will show the progress of downloading.
+     * show notification progress on notification bar.
      * @param contentText the message will be showed in the notification
      */
-    public static void showNotificationProgress(Context context, String title, String contentText, int NotificationId) {
+    public static void showNotification(Context context, String title, String contentText, int NotificationId) {
         Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)

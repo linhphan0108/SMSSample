@@ -5,29 +5,28 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.linhphan.androidboilerplate.util.Logger;
 import com.linhphan.smssample.data.table.TblCategory;
 import com.linhphan.smssample.data.table.TblMessage;
-
+import com.linhphan.smssample.data.table.TblSentMessage;
 /**
- * Created by linh on 03/04/2016.
+ * Created by linh on 5/3/2016.
  */
-public class CategoriesProvider extends BaseProvider {
+public class SentSmsProvider extends BaseProvider{
 
-    private static final String AUTHORITY = "com.linhphan.smssample.catprovider";
-    private static final String BASE_PATH = "cat";
+    private static final String AUTHORITY = "com.linhphan.smssample.sentsmsprovider";
+    private static final String BASE_PATH = "sent";
     public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/" + BASE_PATH);
 
-    public CategoriesProvider() {
+    public SentSmsProvider() {
         super(AUTHORITY, BASE_PATH);
     }
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Logger.i(getClass().getName(), "query");
 
         // Uisng SQLiteQueryBuilder instead of query() method
@@ -68,31 +67,48 @@ public class CategoriesProvider extends BaseProvider {
 
     @Nullable
     @Override
-    public String getType(@NonNull Uri uri) {
+    public String getType(Uri uri) {
         return null;
     }
 
     @Nullable
     @Override
-    public Uri insert(@NonNull Uri uri, ContentValues values) {
-        return null;
+    public Uri insert(Uri uri, ContentValues values) {
+        SQLiteDatabase sqlDB = SMSDatabaseHelper.getWritableDatabase();
+        int uriType = sURIMatcher.match(uri);
+        long id;
+        switch (uriType) {
+            case MATCH_ANY:
+                id = sqlDB.insert(TblSentMessage.TBL_NAME, null, values);
+                return Uri.withAppendedPath(CONTENT_URI, String.valueOf(id));
+
+            default:
+                throw new IllegalArgumentException("Unknown URI: " + uri);
+        }
     }
 
     @Override
-    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
         return 0;
     }
 
     @Override
-    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         return 0;
     }
 
     @Override
     protected String[] getAvailableFields() {
-        return new String[]{
-                TblCategory.COLUMN_ID,
-                TblCategory.COLUMN_NAME,
+        return new String[] {
+                TblSentMessage.COLUMN_ID,
+                TblSentMessage.COLUMN_SMS_ID,
+                TblSentMessage.COLUMN_DUE,
+                TblSentMessage.COLUMN_ERROR,
+                TblSentMessage.COLUMN_PHONE,
+                TblSentMessage.COLUMN_NAME,
+                TblSentMessage.COLUMN_COVER,
+                TblSentMessage.COLUMN_STATUS
+
         };
     }
 }

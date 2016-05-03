@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.linhphan.androidboilerplate.util.Logger;
 import com.linhphan.androidboilerplate.util.ViewUtil;
 import com.linhphan.smssample.R;
-import com.linhphan.smssample.data.model.MessageModel;
+import com.linhphan.smssample.data.model.SmsModel;
 import com.linhphan.smssample.data.table.TblMessage;
 
 /**
@@ -34,7 +34,7 @@ public class ListSMSCursorAdapter extends CursorAdapter{
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         Logger.d(getClass().getName(), "new view");
-        return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_message, parent, false);
+        return LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row_sms, parent, false);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ListSMSCursorAdapter extends CursorAdapter{
         boolean stared = cursor.getInt(starIndex) > 0;
 
         //== create the message model
-        final MessageModel model = new MessageModel();
+        final SmsModel model = new SmsModel();
         model.setCatId(id);
         model.setContent(content);
 
@@ -106,9 +106,9 @@ public class ListSMSCursorAdapter extends CursorAdapter{
 
     //============== inner interfaces ==============================================================
     public interface ClickCallback{
-        void onSendButtonClicked(MessageModel message);
-        void onCopyButtonClicked(MessageModel message);
-        void onShareButtonClicked(MessageModel message);
-        void onScheduleButtonClicked(MessageModel message);
+        void onSendButtonClicked(SmsModel message);
+        void onCopyButtonClicked(SmsModel message);
+        void onShareButtonClicked(SmsModel message);
+        void onScheduleButtonClicked(SmsModel message);
     }
 }

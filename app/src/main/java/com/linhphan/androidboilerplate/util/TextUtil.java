@@ -1,7 +1,5 @@
 package com.linhphan.androidboilerplate.util;
 
-import com.linhphan.smssample.data.model.MessageModel;
-
 import java.util.Arrays;
 
 /**

@@ -9,4 +9,9 @@
 
     <color name="color_purple">#8b2bc7</color>
     <color name="transparent">#00000000</color>
+    <color name="divider">#ECEFF1</color>
+
+
+    <color name="black">#000000</color>
+    <color name="white_1">#ede9e9</color>
 </resources>

@@ -147,7 +147,7 @@ public abstract class BaseFragment extends Fragment {
      * @param transaction this parameter intent for a custom animation during transacting. which is instanced from {@link BaseFragment#getChildFragmentTransaction(int, int, int, int)}.
      * if you don't want a custom animation then leave it's null.
      */
-    protected <T extends Fragment> void addChildFragment(@IdRes int containerLayoutId, Class<T> childFragmentClassName, boolean isAddBackStack,
+    public <T extends Fragment> void addChildFragment(@IdRes int containerLayoutId, Class<T> childFragmentClassName, boolean isAddBackStack,
                                                          @Nullable Bundle data,  @Nullable FragmentTransaction transaction){
         Fragment fragment = Fragment.instantiate(getContext(), childFragmentClassName.getName(), data);
         if (containerLayoutId == 0 || fragment == null){
@@ -174,7 +174,7 @@ public abstract class BaseFragment extends Fragment {
      * @param transaction this parameter intent for a custom animation during transacting. which is instanced from {@link BaseActivity#getFragmentTransaction(int, int, int, int)}.
      * if you don't want a custom animation then leave it's null.
      */
-    protected <T extends Fragment> void replaceChildFragment(@IdRes int containerLayoutId, Class<T> childFragmentClassName, boolean isAddBackStack,
+    public <T extends Fragment> void replaceChildFragment(@IdRes int containerLayoutId, Class<T> childFragmentClassName, boolean isAddBackStack,
                                                         @Nullable Bundle data,  @Nullable FragmentTransaction transaction){
         Fragment fragment = Fragment.instantiate(getContext(), childFragmentClassName.getName(), data);
         if (containerLayoutId == 0 || fragment == null){
@@ -191,7 +191,7 @@ public abstract class BaseFragment extends Fragment {
         }
         transaction.commit();
     }
-    protected void clearChildBackStack(){
+    public void clearChildBackStack(){
         FragmentManager manager = getChildFragmentManager();
         manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
@@ -204,7 +204,7 @@ public abstract class BaseFragment extends Fragment {
      * @param popExit the animation resource fro popped exit screen
      * @return FragmentTransaction object
      */
-    protected FragmentTransaction getChildFragmentTransaction(@AnimRes int enter,@AnimRes int exit,@AnimRes int popEnter,@AnimRes int popExit){
+    public FragmentTransaction getChildFragmentTransaction(@AnimRes int enter,@AnimRes int exit,@AnimRes int popEnter,@AnimRes int popExit){
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.setCustomAnimations(enter, exit, popEnter, popExit);
         return transaction;

@@ -81,7 +81,7 @@ public abstract class BaseActivity extends AppCompatActivity{
      * @param transaction this parameter intent for a custom animation during transacting. which is instanced from {@link BaseActivity#getFragmentTransaction(int, int, int, int)}.
      * if you don't want a custom animation then leave it's null.
      */
-    protected  <T extends Fragment>void addFragment(@IdRes int containerLayoutId, Class<T> fragmentClass, boolean isAddBackStack, @Nullable Bundle data, @Nullable FragmentTransaction transaction){
+    public <T extends Fragment>void addFragment(@IdRes int containerLayoutId, Class<T> fragmentClass, boolean isAddBackStack, @Nullable Bundle data, @Nullable FragmentTransaction transaction){
         Fragment fragment = Fragment.instantiate(this, fragmentClass.getName(), data);
         if (containerLayoutId == 0 || fragment == null){
             Logger.e(getClassTagName(), "container was null or fragment was null");
@@ -106,7 +106,7 @@ public abstract class BaseActivity extends AppCompatActivity{
      * @param transaction this parameter intent for a custom animation during transacting. which is instanced from {@link BaseActivity#getFragmentTransaction(int, int, int, int)}.
      * if you don't want a custom animation then leave it's null.
      */
-    protected   <T extends Fragment>void replaceFragment(@IdRes int containerLayoutId, Class<T> fragmentClass,boolean isAddBackStack, @Nullable Bundle data, @Nullable FragmentTransaction transaction){
+    public <T extends Fragment>void replaceFragment(@IdRes int containerLayoutId, Class<T> fragmentClass,boolean isAddBackStack, @Nullable Bundle data, @Nullable FragmentTransaction transaction){
         Fragment fragment = Fragment.instantiate(this, fragmentClass.getName(), data);
         if (containerLayoutId == 0 || fragment == null){
             Logger.e(getClassTagName(), "container was null or fragment was null");
@@ -125,7 +125,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     /**
      * pop the latest fragment in manager's fragment back stack.
      */
-    protected void popFragment(){
+    public void popFragment(){
         FragmentManager manager = getSupportFragmentManager();
         manager.popBackStack();
     }
@@ -134,7 +134,7 @@ public abstract class BaseActivity extends AppCompatActivity{
      * pop the fragment by id
      * @param id which was returned from commit call
      */
-    protected void popFragment(int id){
+    public void popFragment(int id){
         FragmentManager manager = getSupportFragmentManager();
         manager.popBackStack(id, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
@@ -143,7 +143,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     /**
      * pop entire back stack
      */
-    protected void clearBackStack(){
+    public void clearBackStack(){
         FragmentManager manager = getSupportFragmentManager();
         manager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
@@ -156,7 +156,7 @@ public abstract class BaseActivity extends AppCompatActivity{
      * @param popExit the animation resource fro popped exit screen
      * @return FragmentTransaction object
      */
-    protected FragmentTransaction getFragmentTransaction(@AnimRes int enter,@AnimRes int exit,@AnimRes int popEnter,@AnimRes int popExit){
+    public FragmentTransaction getFragmentTransaction(@AnimRes int enter,@AnimRes int exit,@AnimRes int popEnter,@AnimRes int popExit){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(enter, exit, popEnter, popExit);

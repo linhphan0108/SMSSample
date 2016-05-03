@@ -18,8 +18,16 @@
     <!--drawer navigation-->
     <string name="openDrawer">opened</string>
     <string name="closeDrawer">closed</string>
+    <string name="sent_message">Sent Sms</string>
 
     <string name="copied">copied</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+
+    <!--composer activity-->
+    <string name="to">To:</string>
+    <string name="set_time">Time set at:</string>
+    <string name="no_selected_phone">Please select a phone number!</string>
+    <string name="no_time_set">Please pick a time to send the message</string>
+    <string name="time_invalid">time must be set in future</string>
 </resources>

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +21,9 @@
 
         <activity android:name=".ui.activity.MainActivity" />
 
+        <activity android:name=".ui.activity.ComposerActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
         <receiver android:name=".service.SmsReceiver">
             <intent-filter>
                 <action android:name="com.linhphan.smssample.sms_sent" />
@@ -34,8 +38,14 @@
             android:exported="false" />
 
         <provider
-            android:authorities="com.linhphan.smssample.catprovider"
             android:name=".data.contentprovider.CategoriesProvider"
+            android:authorities="com.linhphan.smssample.catprovider"
             android:exported="false" />
+
+        <provider
+            android:name=".data.contentprovider.SentSmsProvider"
+            android:authorities="com.linhphan.smssample.sentsmsprovider"
+            android:exported="false"/>
+
     </application>
 </manifest>

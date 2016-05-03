@@ -20,14 +20,14 @@
             android:id="@+id/img_vietnamese"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_flag_vietnam"
+            android:src="@drawable/btn_vietnam"
             android:layout_margin="10dp"/>
 
         <ImageView
             android:id="@+id/img_english"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_flag_english"
+            android:src="@drawable/btn_english"
             android:layout_margin="10dp"/>
     </LinearLayout>
 
@@ -41,14 +41,14 @@
             android:id="@+id/img_japanese"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_flag_japan"
+            android:src="@drawable/btn_japan"
             android:layout_margin="10dp"/>
 
         <ImageView
             android:id="@+id/img_korean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_flag_korea"
+            android:src="@drawable/btn_korea"
             android:layout_margin="10dp"/>
     </LinearLayout>
 
@@ -62,14 +62,14 @@
             android:id="@+id/img_chinese"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_flag_china"
+            android:src="@drawable/btn_china"
             android:layout_margin="10dp"/>
 
         <ImageView
             android:id="@+id/img_thai"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/img_flag_thailand"
+            android:src="@drawable/btn_thailand"
             android:layout_margin="10dp"/>
     </LinearLayout>
 

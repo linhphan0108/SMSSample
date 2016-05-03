@@ -28,8 +28,8 @@ public class SMSProvider extends ContentProvider {
     private SMSSQLiteHelper SMSDatabaseHelper;
 
     // used for the UriMacher
-    private static final int SMS = 10;
-    private static final int SMS_ID = 20;
+    private static final int MATCH_ANY = 10;
+    private static final int MATCH_ID = 20;
 
     private static final String AUTHORITY = "com.linhphan.smssample.smsprovider";
     private static final String BASE_PATH = "sms";
@@ -39,8 +39,8 @@ public class SMSProvider extends ContentProvider {
 
     private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
     static {
-        sURIMatcher.addURI(AUTHORITY, BASE_PATH, SMS);
-        sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", SMS_ID);
+        sURIMatcher.addURI(AUTHORITY, BASE_PATH, MATCH_ANY);
+        sURIMatcher.addURI(AUTHORITY, BASE_PATH + "/#", MATCH_ID);
     }
 
     @Override
@@ -66,11 +66,11 @@ public class SMSProvider extends ContentProvider {
 
         int uriType = sURIMatcher.match(uri);
         switch (uriType){
-            case SMS:
+            case MATCH_ANY:
 
                 break;
 
-            case SMS_ID:
+            case MATCH_ID:
                 // adding the ID to the original query
                 queryBuilder.appendWhere(TblMessage.COLUMN_ID +"="+ uri.getLastPathSegment());
                 break;
@@ -105,7 +105,7 @@ public class SMSProvider extends ContentProvider {
         long id;
         int uriType = sURIMatcher.match(uri);
         switch (uriType){
-            case SMS:
+            case MATCH_ANY:
                 id = db.insert(TblMessage.TBL_NAME, null, values);
                 break;
 
@@ -130,11 +130,11 @@ public class SMSProvider extends ContentProvider {
         int uriType = sURIMatcher.match(uri);
         switch (uriType){
 
-            case SMS:
+            case MATCH_ANY:
                 rowsDeleted = db.delete(TblMessage.TBL_NAME, selection, selectionArgs);
                 break;
 
-            case SMS_ID:
+            case MATCH_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)){
                     rowsDeleted = db.delete(TblMessage.TBL_NAME, TblMessage.COLUMN_ID +"="+ id, null);
@@ -163,11 +163,11 @@ public class SMSProvider extends ContentProvider {
         int rowsUpdated = 0;
         int uriType = sURIMatcher.match(uri);
         switch (uriType){
-            case SMS:
+            case MATCH_ANY:
                 rowsUpdated = db.update(TblMessage.TBL_NAME, values, selection, selectionArgs);
                 break;
 
-            case SMS_ID:
+            case MATCH_ID:
                 String id = uri.getLastPathSegment();
                 if (TextUtils.isEmpty(selection)) {
                     rowsUpdated = db.update(TblMessage.TBL_NAME, values,

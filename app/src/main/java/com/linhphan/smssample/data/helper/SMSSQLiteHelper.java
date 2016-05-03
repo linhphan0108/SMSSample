@@ -8,6 +8,7 @@ import com.linhphan.androidboilerplate.data.table.BaseTable;
 import com.linhphan.smssample.data.table.TblCategory;
 import com.linhphan.smssample.data.table.TblLanguage;
 import com.linhphan.smssample.data.table.TblMessage;
+import com.linhphan.smssample.data.table.TblSentMessage;
 
 /**
  * Created by linh on 29/03/2016.
@@ -34,6 +35,9 @@ public class SMSSQLiteHelper extends SQLiteOpenHelper{
 
         table = new TblMessage();
         table.onCreate(mContext, db);
+
+        table = new TblSentMessage();
+        table.onCreate(mContext, db);
     }
 
     @Override
@@ -45,6 +49,9 @@ public class SMSSQLiteHelper extends SQLiteOpenHelper{
         table.onUpgrade(mContext, db, oldVersion, newVersion);
 
         table = new TblMessage();
+        table.onUpgrade(mContext, db, oldVersion, newVersion);
+
+        table = new TblSentMessage();
         table.onUpgrade(mContext, db, oldVersion, newVersion);
     }
 }
