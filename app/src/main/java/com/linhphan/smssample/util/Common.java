@@ -3,14 +3,19 @@ package com.linhphan.smssample.util;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.telephony.SmsManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.linhphan.androidboilerplate.util.Logger;
+import com.linhphan.smssample.data.contentprovider.SentSmsProvider;
 import com.linhphan.smssample.data.model.SmsWrapper;
+import com.linhphan.smssample.data.table.TblSentMessage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,8 +101,10 @@ public class Common {
                     }
                     if (TextUtils.isEmpty(messageWrapper.getError())){
                         title = "your message sent to " + messageWrapper.getDestinationPhoneNumber();
+                        changeSentStatus(context, messageWrapper, TblSentMessage.Status.Sent.ordinal());
                     }else{
                         title = "failure to send your message to " + messageWrapper.getDestinationPhoneNumber();
+                        changeSentStatus(context, messageWrapper, TblSentMessage.Status.ErrorSend.ordinal());
                     }
                     NotificationUtil.showNotification(context, title, content, rand);
                     context.unregisterReceiver(this);
@@ -127,9 +134,12 @@ public class Common {
                     }
                     if (TextUtils.isEmpty(messageWrapper.getError())){
                         title = "your sms was delivered to " + messageWrapper.getDestinationPhoneNumber();
+                        changeSentStatus(context, messageWrapper, TblSentMessage.Status.Delivered.ordinal());
                     }else{
                         title = "failure to delivery your message to " + messageWrapper.getDestinationPhoneNumber();
+                        changeSentStatus(context, messageWrapper, TblSentMessage.Status.ErrorDeliver.ordinal());
                     }
+
                     NotificationUtil.showNotification(context, title, content, rand);
                     context.unregisterReceiver(this);
                 }
@@ -176,5 +186,16 @@ public class Common {
             }
         }
         return false;
+    }
+
+    /**
+     * change the status of the sent message
+     */
+    private static void changeSentStatus(Context context, SmsWrapper wrapper, int status){
+        ContentValues values = new ContentValues();
+        values.put(TblSentMessage.COLUMN_STATUS, status);
+        Uri uri = Uri.withAppendedPath(SentSmsProvider.CONTENT_URI, wrapper.getWrapperId());
+        int count = context.getContentResolver().update(uri, values, null, null);
+        Logger.e("change status", "status is changed to "+ status + ", changed count: "+ count);
     }
 }

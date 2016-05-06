@@ -59,7 +59,7 @@ public class ListSMSCursorAdapter extends CursorAdapter{
 
         //== create the message model
         final SmsModel model = new SmsModel();
-        model.setCatId(id);
+        model.setId(id);
         model.setContent(content);
 
         txtContent.setText(content);

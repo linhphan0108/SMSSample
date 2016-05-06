@@ -8,7 +8,7 @@ import com.linhphan.androidboilerplate.data.model.BaseModel;
 /**
  * Created by linh on 30/03/2016.
  */
-public class SmsModel extends BaseModel implements Parcelable{
+public class SmsModel<T extends SmsModel> extends BaseModel<T>{
     private int mLangId;
     private int mCatId;
     private String mContent;
@@ -30,6 +30,7 @@ public class SmsModel extends BaseModel implements Parcelable{
     }
 
     protected SmsModel(Parcel in) {
+        setId(in.readInt());
         mLangId = in.readInt();
         mCatId = in.readInt();
         mContent = in.readString();
@@ -80,16 +81,19 @@ public class SmsModel extends BaseModel implements Parcelable{
 
     //========= inherited methods ==================================================================
     @Override
-    public String objectToJson() {
+    public int compare(SmsModel lhs, SmsModel rhs) {
+        return 0;
+    }
+
+    @Override
+    public T fromJsonString(String jsonString) {
         return null;
     }
 
     @Override
-    public <T extends BaseModel> T jsonToObject(String json) {
+    public String toJsonString() {
         return null;
     }
-
-    //======= implemented methods ==================================================================
 
     //=== start parcelable's methods
     public static final Creator<SmsModel> CREATOR = new Creator<SmsModel>() {
@@ -111,6 +115,7 @@ public class SmsModel extends BaseModel implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(getId());
         dest.writeInt(mLangId);
         dest.writeInt(mCatId);
         dest.writeString(mContent);

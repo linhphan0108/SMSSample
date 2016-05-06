@@ -14,7 +14,8 @@ import org.json.JSONObject;
  * such as id, destination phone number, etc,..
  * Created by linh on 13/04/2016.
  */
-public class SmsWrapper extends SmsModel {
+public class SmsWrapper extends SmsModel<SmsWrapper>{
+    private String mWrapperId;
     private long mDue;//==
     private String mError;//== log any error during sending message
     private String mDestinationPhoneNumber;
@@ -39,6 +40,7 @@ public class SmsWrapper extends SmsModel {
     }
 
     public SmsWrapper(Parcel in) {
+        setWrapperId(in.readString());
         setLangId(in.readInt());
         setCatId(in.readInt());
         setContent(in.readString());
@@ -53,6 +55,14 @@ public class SmsWrapper extends SmsModel {
     }
 
     //========== setters and getters  ==============================================================
+    public String getWrapperId() {
+        return mWrapperId;
+    }
+
+    public void setWrapperId(String wrapperId) {
+        this.mWrapperId = wrapperId;
+    }
+
     public String getError() {
         return mError;
     }
@@ -127,9 +137,10 @@ public class SmsWrapper extends SmsModel {
     }
 
     @Override
-    public String objectToJson() {
+    public String toJsonString() {
         JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("mWrapperId", mWrapperId);
             jsonObject.put("mId", mId);
             jsonObject.put("mCatId", getCatId());
             jsonObject.put("mLangId", getLangId());
@@ -149,9 +160,10 @@ public class SmsWrapper extends SmsModel {
     }
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends BaseModel> T jsonToObject(String json) {
+    public SmsWrapper fromJsonString(String json) {
         try {
             JSONObject jsonObject = new JSONObject(json);
+            this.setWrapperId(jsonObject.optString("mWrapperId"));
             this.setId(jsonObject.optInt("mId"));
             this.setCatId(jsonObject.optInt("mCatId"));
             this.setLangId(jsonObject.optInt("mLangId"));
@@ -165,7 +177,7 @@ public class SmsWrapper extends SmsModel {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return (T) this;
+        return this;
     }
 
     //=== start parcelable's methods
@@ -188,6 +200,7 @@ public class SmsWrapper extends SmsModel {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getWrapperId());
         dest.writeInt(getLangId());
         dest.writeInt(getCatId());
         dest.writeString(getContent());
@@ -201,4 +214,14 @@ public class SmsWrapper extends SmsModel {
         dest.writeInt(mDeliveredTrack);
     }
     //=== end parcelable's methods
+
+    //============ inner methods ===================================================================
+    /**
+     * try to generate an id for this wrapper
+     */
+    public static String generateWrapperId(int messageId, String phone, long due){
+        phone = phone.replace(" ", "");
+        phone = phone.replace("-", "");
+        return String.valueOf(messageId) + phone + String.valueOf(due);
+    }
 }

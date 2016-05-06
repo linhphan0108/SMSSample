@@ -186,7 +186,7 @@ public class ListSmsFragment extends BaseFragment implements LoaderManager.Loade
 //        Bundle bundle = new Bundle();
 //        bundle.putSerializable(Constant.ARG_BUNDLE_MESSAGE, messageWrapper);
         Intent alarmIntent = new Intent(Constant.INTENT_FLAG_ALARM_SENT);
-        alarmIntent.putExtra(Constant.ARG_INTENT_MESSAGE, messageWrapper.objectToJson());
+        alarmIntent.putExtra(Constant.ARG_INTENT_MESSAGE, messageWrapper.toJsonString());
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(getContext(), requestCode, alarmIntent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, alarmPendingIntent);
 

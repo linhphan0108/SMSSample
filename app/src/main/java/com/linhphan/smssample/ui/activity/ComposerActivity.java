@@ -211,7 +211,7 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
         int requestCode = (int) (Math.random()*100 + 100);
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(Constant.INTENT_FLAG_ALARM_SENT);
-        alarmIntent.putExtra(Constant.ARG_INTENT_MESSAGE, messageWrapper.objectToJson());
+        alarmIntent.putExtra(Constant.ARG_INTENT_MESSAGE, messageWrapper.toJsonString());
         PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, requestCode, alarmIntent, 0);
         alarmManager.set(AlarmManager.RTC_WAKEUP, messageWrapper.getDue(), alarmPendingIntent);
 
@@ -243,6 +243,7 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
                 messageWrapper.setContactName(name);
                 messageWrapper.setCoverUri(cover);
                 messageWrapper.setDue(DateUtil.getCurrentTimeInMillis());
+                messageWrapper.setWrapperId(SmsWrapper.generateWrapperId(messageWrapper.getId(), messageWrapper.getDestinationPhoneNumber(), messageWrapper.getDue()));
                 list.add(messageWrapper);
             }
         }
@@ -282,6 +283,7 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
                 messageWrapper.setContactName(name);
                 messageWrapper.setCoverUri(cover);
                 messageWrapper.setDue(mScheduledTimeInMillis);
+                messageWrapper.setWrapperId(SmsWrapper.generateWrapperId(messageWrapper.getId(), messageWrapper.getDestinationPhoneNumber(), messageWrapper.getDue()));
                 scheduleAlarm(messageWrapper);
             }
         }
@@ -297,18 +299,18 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
 
     private void store(SmsWrapper sms){
         ContentValues values = new ContentValues();
+        values.put(TblSentMessage.COLUMN_ID, sms.getWrapperId());
         values.put(TblSentMessage.COLUMN_SMS_ID, sms.getId());
         values.put(TblSentMessage.COLUMN_DUE, sms.getDue());
         values.put(TblSentMessage.COLUMN_ERROR, sms.getError());
         values.put(TblSentMessage.COLUMN_PHONE, sms.getDestinationPhoneNumber());
         values.put(TblSentMessage.COLUMN_NAME, sms.getContactName());
-        values.put(TblSentMessage.COLUMN_STATUS, 1);
+        values.put(TblSentMessage.COLUMN_STATUS, TblSentMessage.Status.Pending.ordinal());
         Uri cover = sms.getCoverUri();
         if (cover != null) {
             values.put(TblSentMessage.COLUMN_COVER, cover.getPath());
         }
-        Uri uri = getContentResolver().insert(SentSmsProvider.CONTENT_URI, values);
-        Toast.makeText(this, uri.toString(), Toast.LENGTH_SHORT).show();
+        getContentResolver().insert(SentSmsProvider.CONTENT_URI, values);
     }
 
     //============== inner classes =================================================================

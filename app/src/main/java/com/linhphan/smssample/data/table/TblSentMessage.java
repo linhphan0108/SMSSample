@@ -30,7 +30,7 @@ public class TblSentMessage extends BaseTable {
     protected String getCreationSqlStatement() {
         return "CREATE TABLE IF NOT EXISTS " + TBL_NAME +
                 "(" +
-                COLUMN_ID +" INTEGER PRIMARY KEY autoincrement, "+
+                COLUMN_ID +" TEXT PRIMARY KEY, "+
                 COLUMN_SMS_ID +" INTEGER NOT NULL, "+
                 COLUMN_DUE +" INTEGER NOT NULL, "+
                 COLUMN_ERROR +" TEXT, "+
@@ -44,5 +44,10 @@ public class TblSentMessage extends BaseTable {
 
     @Override
     protected void populateData(Context context, SQLiteDatabase database) {
+    }
+
+    //============ inner classes ===================================================================
+    public enum Status{
+        Pending, Sent, Delivered, ErrorSend, ErrorDeliver,
     }
 }

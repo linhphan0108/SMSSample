@@ -24,7 +24,7 @@
         <activity android:name=".ui.activity.ComposerActivity"
             android:windowSoftInputMode="adjustPan"/>
 
-        <receiver android:name=".service.SmsReceiver">
+        <receiver android:name=".service.AlarmReceiver">
             <intent-filter>
                 <action android:name="com.linhphan.smssample.sms_sent" />
                 <action android:name="com.linhphan.smssample.sms_delivery" />

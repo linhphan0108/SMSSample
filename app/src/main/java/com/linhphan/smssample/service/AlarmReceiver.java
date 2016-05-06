@@ -13,7 +13,7 @@ import com.linhphan.smssample.util.NotificationUtil;
 /**
  * Created by linh on 06/04/2016.
  */
-public class SmsReceiver extends BroadcastReceiver {
+public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -23,7 +23,7 @@ public class SmsReceiver extends BroadcastReceiver {
             int rand = (int) (Math.random() * 100);
             String json = intent.getStringExtra(Constant.ARG_INTENT_MESSAGE);
             SmsWrapper messageWrapper = new SmsWrapper();
-            messageWrapper.jsonToObject(json);
+            messageWrapper.fromJsonString(json);
             String message = messageWrapper.getContent();
             Common.sendMessageDirectly(context, messageWrapper);
 
