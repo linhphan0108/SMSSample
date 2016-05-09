@@ -29,8 +29,7 @@
             android:layout_margin="5dp"
             style="?android:attr/borderlessButtonStyle"
             android:text="@string/ok"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimary"/>
+            android:textStyle="bold"/>
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
@@ -38,7 +37,6 @@
             android:layout_margin="5dp"
             android:text="@string/cancel"
             style="?android:attr/borderlessButtonStyle"
-            android:textColor="@color/colorPrimary"
             android:textStyle="bold"/>
     </LinearLayout>
 </LinearLayout>

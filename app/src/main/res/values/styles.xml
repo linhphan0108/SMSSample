@@ -5,8 +5,12 @@
         <!-- Customize your theme here. -->
         <!--<item name="windowNoTitle">true</item>-->
         <!--<item name="windowActionBar">false</item>-->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="android:windowBackground">@color/window_background</item> <!-- the main window's background-->
+        <!--<item name="android:colorBackground">@color/color_purple</item> background for almost components-->
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="android:textColorSecondary">@color/secondary_text</item>
     </style>
 </resources>

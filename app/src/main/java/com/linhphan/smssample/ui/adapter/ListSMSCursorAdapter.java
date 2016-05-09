@@ -1,18 +1,21 @@
 package com.linhphan.smssample.ui.adapter;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.linhphan.androidboilerplate.util.Logger;
 import com.linhphan.androidboilerplate.util.ViewUtil;
 import com.linhphan.smssample.R;
+import com.linhphan.smssample.data.contentprovider.SmsProvider;
 import com.linhphan.smssample.data.model.SmsModel;
 import com.linhphan.smssample.data.table.TblMessage;
 
@@ -41,10 +44,10 @@ public class ListSMSCursorAdapter extends CursorAdapter{
     public void bindView(View view, Context context, Cursor cursor) {
         Logger.d(getClass().getName(), "bind view");
         TextView txtContent = (TextView) view.findViewById(R.id.txt_message_content);
-        Button btnSend = (Button) view.findViewById(R.id.btn_send);
-        Button btnCopy = (Button) view.findViewById(R.id.btn_copy);
-        Button btnShare = (Button) view.findViewById(R.id.btn_share);
-        Button btnSchedule = (Button) view.findViewById(R.id.btn_schedule);
+        ImageButton btnSend = (ImageButton) view.findViewById(R.id.btn_send);
+        ImageButton btnCopy = (ImageButton) view.findViewById(R.id.btn_copy);
+        ImageButton btnShare = (ImageButton) view.findViewById(R.id.btn_share);
+        ImageButton btnSchedule = (ImageButton) view.findViewById(R.id.btn_schedule);
         ImageView imgStar = (ImageView) view.findViewById(R.id.img_star);
 
         //== get index
@@ -53,7 +56,7 @@ public class ListSMSCursorAdapter extends CursorAdapter{
         int starIndex = cursor.getColumnIndex(TblMessage.COLUMN_STARED);
 
         //== get data
-        int id = cursor.getInt(idIndex);
+        final int id = cursor.getInt(idIndex);
         String content = cursor.getString(contentIndex);
         boolean stared = cursor.getInt(starIndex) > 0;
 
@@ -69,28 +72,28 @@ public class ListSMSCursorAdapter extends CursorAdapter{
         btnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.lockView(v);
+                ViewUtil.lockViewTemporary(v);
                 mCallback.onSendButtonClicked(model);
             }
         });
         btnCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.lockView(v);
+                ViewUtil.lockViewTemporary(v);
                 mCallback.onCopyButtonClicked(model);
             }
         });
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.lockView(v);
+                ViewUtil.lockViewTemporary(v);
                 mCallback.onShareButtonClicked(model);
             }
         });
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.lockView(v);
+                ViewUtil.lockViewTemporary(v);
                 mCallback.onScheduleButtonClicked(model);
             }
         });
@@ -98,8 +101,17 @@ public class ListSMSCursorAdapter extends CursorAdapter{
         imgStar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewUtil.lockView(v);
-                v.setSelected(!v.isSelected());
+                ViewUtil.lockViewTemporary(v);
+                boolean isSelected = !v.isSelected();
+                v.setSelected(isSelected);
+
+                Uri uri = Uri.withAppendedPath(SmsProvider.CONTENT_URI, String.valueOf(id));
+                ContentValues values = new ContentValues();
+                values.put(TblMessage.COLUMN_STARED, isSelected);
+                int changedRows = mContext.getContentResolver().update(uri, values, null, null);
+
+                Logger.e(getClass().getName(), "selected "+ String.valueOf(isSelected));
+                Logger.e(getClass().getName(), "changed rows: "+ String.valueOf(changedRows));
             }
         });
     }

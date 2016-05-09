@@ -22,7 +22,7 @@ import java.util.HashSet;
 /**
  * Created by linh on 02/04/2016.
  */
-public class SMSProvider extends ContentProvider {
+public class SmsProvider extends ContentProvider {
 
     // SMSDatabaseHelper
     private SMSSQLiteHelper SMSDatabaseHelper;
@@ -180,6 +180,10 @@ public class SMSProvider extends ContentProvider {
 
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
+        }
+
+        if (getContext() != null){
+            getContext().getContentResolver().notifyChange(uri, null);
         }
 
         return rowsUpdated;

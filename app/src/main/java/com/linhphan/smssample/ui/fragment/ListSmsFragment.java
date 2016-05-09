@@ -23,7 +23,7 @@ import com.linhphan.androidboilerplate.ui.fragment.BaseFragment;
 import com.linhphan.androidboilerplate.util.Logger;
 import com.linhphan.androidboilerplate.util.TextUtil;
 import com.linhphan.smssample.R;
-import com.linhphan.smssample.data.contentprovider.SMSProvider;
+import com.linhphan.smssample.data.contentprovider.SmsProvider;
 import com.linhphan.smssample.data.model.SmsWrapper;
 import com.linhphan.smssample.data.model.SmsModel;
 import com.linhphan.smssample.data.table.TblMessage;
@@ -89,7 +89,7 @@ public class ListSmsFragment extends BaseFragment implements LoaderManager.Loade
         String selectionArg[] = {
                 String.valueOf(mCatId)
         };
-        return new CursorLoader(getContext(), SMSProvider.CONTENT_URI, null, selection, selectionArg, null);
+        return new CursorLoader(getContext(), SmsProvider.CONTENT_URI, null, selection, selectionArg, null);
     }
 
     @Override
@@ -98,7 +98,6 @@ public class ListSmsFragment extends BaseFragment implements LoaderManager.Loade
         Logger.d(getClass().getName(), "onLoadFinished");
         if (data != null){
             Logger.e(getClass().getName(), "number of rows in table message: "+ data.getCount());
-            Toast.makeText(getContext(), "number of rows "+ data.getCount(), Toast.LENGTH_SHORT).show();
         }
     }
 

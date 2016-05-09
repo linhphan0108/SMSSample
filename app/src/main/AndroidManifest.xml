@@ -33,7 +33,7 @@
         </receiver>
 
         <provider
-            android:name=".data.contentprovider.SMSProvider"
+            android:name=".data.contentprovider.SmsProvider"
             android:authorities="com.linhphan.smssample.smsprovider"
             android:exported="false" />
 

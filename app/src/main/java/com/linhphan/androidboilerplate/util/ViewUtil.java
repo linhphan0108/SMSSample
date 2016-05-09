@@ -53,7 +53,7 @@ public class ViewUtil {
      * disable a view in 2 seconds, then re-enable it after then.
      * @param view will be disabled
      */
-    public static void lockView(final View view){
+    public static void lockViewTemporary(final View view){
         view.setEnabled(false);
         view.postDelayed(new Runnable() {
             @Override
