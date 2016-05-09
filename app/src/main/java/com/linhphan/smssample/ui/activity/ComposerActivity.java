@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,8 +57,8 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
 
     private EditText mEdtSmsContent;
     private TextView mTxtScheduledTime;
-    private Button mBtnTime;
-    private Button mBtnSendNow;
+    private ImageButton mBtnTime;
+    private ImageButton mBtnSendNow;
     private Button mBtnSet;
     private RecipientEditTextView mPhoneRetv;
     private ContactAdapter mAdapter;
@@ -110,8 +111,8 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
     protected void getWidgets(Bundle savedInstanceState) {
         mEdtSmsContent = (EditText) findViewById(R.id.edt_sms_content);
         mTxtScheduledTime = (TextView) findViewById(R.id.txt_scheduled_time);
-        mBtnTime = (Button) findViewById(R.id.btn_time);
-        mBtnSendNow = (Button) findViewById(R.id.btn_send_now);
+        mBtnTime = (ImageButton) findViewById(R.id.btn_alarm);
+        mBtnSendNow = (ImageButton) findViewById(R.id.btn_send);
         mBtnSet = (Button) findViewById(R.id.btn_set);
         mPhoneRetv = (RecipientEditTextView) findViewById(R.id.phone_retv);
 
@@ -133,11 +134,11 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btn_time:
+            case R.id.btn_alarm:
                 showDateTimePicker();
                 break;
 
-            case R.id.btn_send_now:
+            case R.id.btn_send:
                 onSendNowClicked();
                 break;
 
