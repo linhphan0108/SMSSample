@@ -118,7 +118,7 @@ public class SmsProvider extends ContentProvider {
             throw new NullPointerException("context is null");
         }
 
-        return Uri.parse(BASE_PATH + "/" + id);
+        return Uri.parse(CONTENT_URI + "/" + id);
     }
 
     @Override

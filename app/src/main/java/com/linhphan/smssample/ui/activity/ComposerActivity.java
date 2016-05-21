@@ -16,6 +16,8 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.CursorAdapter;
 import android.telephony.PhoneNumberUtils;
+import android.text.method.KeyListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +38,10 @@ import com.linhphan.androidboilerplate.util.DateUtil;
 import com.linhphan.androidboilerplate.util.Logger;
 import com.linhphan.smssample.R;
 import com.linhphan.smssample.data.contentprovider.SentSmsProvider;
+import com.linhphan.smssample.data.contentprovider.SmsProvider;
 import com.linhphan.smssample.data.model.SmsModel;
 import com.linhphan.smssample.data.model.SmsWrapper;
+import com.linhphan.smssample.data.table.TblMessage;
 import com.linhphan.smssample.data.table.TblSentMessage;
 import com.linhphan.smssample.util.Common;
 import com.linhphan.smssample.util.Constant;
@@ -46,6 +50,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by linh on 4/30/2016.
@@ -59,12 +65,15 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
     private TextView mTxtScheduledTime;
     private ImageButton mBtnTime;
     private ImageButton mBtnSendNow;
+    private ImageButton mBtnBack;
     private Button mBtnSet;
     private RecipientEditTextView mPhoneRetv;
     private ContactAdapter mAdapter;
 
     private SmsModel mSms;
     private long mScheduledTimeInMillis;
+    private boolean mShouldEditSmsContent;
+    private KeyListener mKeyListener;
 
     //== data columns
     @SuppressLint("InlinedApi")
@@ -78,7 +87,7 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
             COLUMN_PHONE_NUMBER};
     // Defines the text expression
     private final String SELECTION = COLUMN_NAME + " LIKE ? OR " + COLUMN_PHONE_NUMBER + " LIKE ?";
-    // Defines a variable for the search string
+    // Defines a mKeyListener for the search string
     private String mSearchString = "";
     private String[] mSelectionArgs = { mSearchString, mSearchString};
     private final String SORT_ORDER = PROJECTION[2] + " ASC ";
@@ -113,12 +122,15 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
         mTxtScheduledTime = (TextView) findViewById(R.id.txt_scheduled_time);
         mBtnTime = (ImageButton) findViewById(R.id.btn_alarm);
         mBtnSendNow = (ImageButton) findViewById(R.id.btn_send);
+        mBtnBack = (ImageButton) findViewById(R.id.btn_back);
         mBtnSet = (Button) findViewById(R.id.btn_set);
         mPhoneRetv = (RecipientEditTextView) findViewById(R.id.phone_retv);
 
         if (mSms != null){
             mEdtSmsContent.setText(mSms.getContent());
         }
+        mKeyListener = mEdtSmsContent.getKeyListener();
+        mEdtSmsContent.setKeyListener(null);
 
         setupReceiptPhoneTextView();
     }
@@ -127,7 +139,9 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
     protected void registerEventHandler() {
         mBtnTime.setOnClickListener(this);
         mBtnSendNow.setOnClickListener(this);
+        mBtnBack.setOnClickListener(this);
         mBtnSet.setOnClickListener(this);
+        mEdtSmsContent.setOnClickListener(this);
     }
 
     //================ implemented methods =========================================================
@@ -142,8 +156,16 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
                 onSendNowClicked();
                 break;
 
+            case R.id.btn_back:
+                onBackPressed();
+                break;
+
             case R.id.btn_set:
                 onSetButtonClicked();
+                break;
+
+            case R.id.edt_sms_content:
+                onEditorClicked();
                 break;
 
             default:
@@ -233,6 +255,8 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
             return;
         }
 
+        checkAndStoreSms();
+
         List<SmsWrapper> list = new ArrayList<>();
         for (DrawableRecipientChip chip : chips) {
             String name = chip.getEntry().getDisplayName();
@@ -249,9 +273,25 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
             }
         }
 
-        Common.sendMessageDirectly(this, list);
-        store(list);
+//        Common.sendMessageDirectly(this, list);// TODO: 5/19/2016 this should be un-commented out
+        storeToSentTable(list);
         onBackPressed();
+    }
+
+    private void onEditorClicked(){
+        if (mShouldEditSmsContent){
+            mShouldEditSmsContent = true;
+            Toast.makeText(this, getString(R.string.click_more), Toast.LENGTH_SHORT).show();
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    mShouldEditSmsContent = false;
+                }
+            }, 1000);
+        }else{
+            mEdtSmsContent.setKeyListener(mKeyListener);
+        }
     }
 
     private void onSetButtonClicked(){
@@ -273,6 +313,8 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
             return;
         }
 
+        checkAndStoreSms();
+
         List<SmsWrapper> list = new ArrayList<>();
         for (DrawableRecipientChip chip : chips) {
             String name = chip.getEntry().getDisplayName();
@@ -285,20 +327,78 @@ public class ComposerActivity extends BaseActivity implements LoaderManager.Load
                 messageWrapper.setCoverUri(cover);
                 messageWrapper.setDue(mScheduledTimeInMillis);
                 messageWrapper.setWrapperId(SmsWrapper.generateWrapperId(messageWrapper.getId(), messageWrapper.getDestinationPhoneNumber(), messageWrapper.getDue()));
-                scheduleAlarm(messageWrapper);
+//                scheduleAlarm(messageWrapper); // TODO: 5/19/2016 this should be un-commented out
             }
         }
-        store(list);
+
+        storeToSentTable(list);
         onBackPressed();
     }
 
-    private void store(List<SmsWrapper> list){
-        for (SmsWrapper smsWrapper : list){
-            store(smsWrapper);
+    /**
+     * determine whether sms' content has changed or not. if the content has changed
+     * then store it into a new sms into database
+     */
+    private void checkAndStoreSms(){
+        if (isContentChanged()){
+            Uri uri = storeCustomSms();
+            if (uri != null) {
+                String sNewSmsId = uri.getLastPathSegment();
+                try {
+                    int iNewSmsId = Integer.parseInt(sNewSmsId);
+                    mSms.setId(iNewSmsId);
+                    mSms.setContent(mEdtSmsContent.getText().toString());
+
+                    Logger.d(getClassTagName(), "new sms id: "+ sNewSmsId);
+                }catch (NumberFormatException e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
-    private void store(SmsWrapper sms){
+    /**
+     * determine whether the content of message has been changed by user.
+     * @return true if the content has been changed otherwise return false
+     */
+    private boolean isContentChanged(){
+        String original = mSms.getContent().trim();
+        String content = mEdtSmsContent.getText().toString().trim();
+        return !original.equals(content);
+    }
+
+    /**
+     * store a new message to database
+     * @return the uri locates to new message in database
+     */
+    private Uri storeCustomSms(){
+        Toast.makeText(this, getString(R.string.store_custom_sms), Toast.LENGTH_SHORT).show();
+        ContentValues values = new ContentValues();
+        values.put(TblMessage.COLUMN_CAT_ID, mSms.getCatId());
+        values.put(TblMessage.COLUMN_LANG_ID, mSms.getLangId());
+        values.put(TblMessage.COLUMN_STARED, false);
+        values.put(TblMessage.COLUMN_CONTENT, mEdtSmsContent.getText().toString());
+        Uri uri = getContentResolver().insert(SmsProvider.CONTENT_URI, values);
+        Logger.d(getClassTagName(), "store custom sms at "+ uri);
+
+        return uri;
+    }
+
+    /**
+     * store the information of session to sent table in database
+     * @param list a list of sms wrapper to be saved
+     */
+    private void storeToSentTable(List<SmsWrapper> list){
+        for (SmsWrapper smsWrapper : list){
+            storeToSentTable(smsWrapper);
+        }
+    }
+
+    /**
+     * store the information of session to sent table in database
+     * @param sms a sms wrapper to be saved
+     */
+    private void storeToSentTable(SmsWrapper sms){
         ContentValues values = new ContentValues();
         values.put(TblSentMessage.COLUMN_ID, sms.getWrapperId());
         values.put(TblSentMessage.COLUMN_SMS_ID, sms.getId());

@@ -29,6 +29,7 @@ import com.linhphan.smssample.data.model.SmsModel;
 import com.linhphan.smssample.data.table.TblMessage;
 import com.linhphan.smssample.ui.activity.ComposerActivity;
 import com.linhphan.smssample.ui.adapter.ListSMSCursorAdapter;
+import com.linhphan.smssample.ui.dialog.EditSmsDialog;
 import com.linhphan.smssample.util.Constant;
 
 import java.util.Calendar;
@@ -147,6 +148,19 @@ public class ListSmsFragment extends BaseFragment implements LoaderManager.Loade
         sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject Here");
         sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, message.getContent());
         startActivity(Intent.createChooser(sharingIntent, "Choose an App"));
+    }
+
+    @Override
+    public void onEditButtonClicked(SmsModel message) {
+        EditSmsDialog dialog = new EditSmsDialog();
+        dialog.setContent(message.getContent());
+        dialog.setCallback(new EditSmsDialog.DialogCallback() {
+            @Override
+            public void onOkClicked(String newContent) {
+
+            }
+        });
+        dialog.show(getChildFragmentManager(), EditSmsDialog.class.getName());
     }
 
     @Override

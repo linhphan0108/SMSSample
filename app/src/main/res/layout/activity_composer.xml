@@ -67,36 +67,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:paddingTop="4dp"
-            android:gravity="end|center_vertical">
+            android:paddingTop="4dp">
 
-            <ImageButton
-                android:id="@+id/btn_send"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/selector_send"
-                android:background="@null"
-                android:contentDescription="@null"/>
+                android:layout_height="match_parent"
+                android:gravity="start|center_vertical">
+                <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/selector_back"
+                    android:background="@null"
+                    android:contentDescription="@null"/>
+            </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/btn_alarm"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/selector_alarm"
-                android:background="@null"
-                android:contentDescription="@null"
-                />
+                android:gravity="end|center_vertical">
+                <ImageButton
+                    android:id="@+id/btn_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/selector_send"
+                    android:background="@null"
+                    android:contentDescription="@null"/>
 
-            <Button
-                android:id="@+id/btn_set"
-                android:layout_width="72dp"
-                android:layout_height="48dp"
-                android:background="@drawable/bg_button_primary"
-                android:text="@string/ok"/>
+                <ImageButton
+                    android:id="@+id/btn_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/selector_alarm"
+                    android:background="@null"
+                    android:contentDescription="@null"
+                    />
+
+                <Button
+                    android:id="@+id/btn_set"
+                    android:layout_width="72dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/bg_button_primary"
+                    android:text="@string/ok"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

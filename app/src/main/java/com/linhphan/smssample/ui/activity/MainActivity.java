@@ -18,7 +18,6 @@ import com.linhphan.androidboilerplate.util.Logger;
 import com.linhphan.smssample.R;
 import com.linhphan.smssample.data.contentprovider.CategoriesProvider;
 import com.linhphan.smssample.data.table.TblCategory;
-import com.linhphan.smssample.ui.fragment.ListSentSmsFragment;
 import com.linhphan.smssample.ui.fragment.ListSmsFragment;
 
 /**
@@ -105,7 +104,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
             }
 
             //sent message category
-            menu.add(0, SENT_MESSAGE_CAT_ID, Menu.NONE, getString(R.string.sent_message));
+//            menu.add(0, SENT_MESSAGE_CAT_ID, Menu.NONE, getString(R.string.sent_message));
 
 //            for (int i = 0, count = navigationView.getChildCount(); i < count; i++) {
 //                final View child = navigationView.getChildAt(i);
@@ -130,7 +129,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         switch (menuItem.getGroupId()){
             case 0:
                 if (menuItem.getItemId() == SENT_MESSAGE_CAT_ID){
-                    openListSentMessage();
+//                    openListSentMessage();
                 }else {
                     openListMessage(menuItem.getItemId());
                 }
@@ -175,7 +174,7 @@ public class MainActivity extends BaseActivity implements LoaderManager.LoaderCa
         replaceFragment(R.id.fl_main_content, ListSmsFragment.class, false, bundle, null);
     }
 
-    private void openListSentMessage(){
-        replaceFragment(R.id.fl_main_content, ListSentSmsFragment.class, false, null, null);
-    }
+//    private void openListSentMessage(){
+//        replaceFragment(R.id.fl_main_content, ListSentSmsFragment.class, false, null, null);
+//    }
 }

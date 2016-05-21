@@ -16,6 +16,8 @@ public class LanguageChoiceActivity extends BaseActivity implements View.OnClick
     private ImageView mImgKorean;
     private ImageView mImgChinese;
     private ImageView mImgThai;
+    private ImageView mImgSentSms;
+    private ImageView mImgYourCustomSms;
 
     //============ overridden methods ==============================================================
     @Override
@@ -36,6 +38,7 @@ public class LanguageChoiceActivity extends BaseActivity implements View.OnClick
         mImgKorean = (ImageView) findViewById(R.id.img_korean);
         mImgChinese = (ImageView) findViewById(R.id.img_chinese);
         mImgThai = (ImageView) findViewById(R.id.img_thai);
+        mImgSentSms = (ImageView) findViewById(R.id.img_sent_sms);
     }
 
     @Override
@@ -46,6 +49,7 @@ public class LanguageChoiceActivity extends BaseActivity implements View.OnClick
         mImgKorean.setOnClickListener(this);
         mImgChinese.setOnClickListener(this);
         mImgThai.setOnClickListener(this);
+        mImgSentSms.setOnClickListener(this);
     }
 
     //=========== implemented methods ==============================================================
@@ -61,6 +65,10 @@ public class LanguageChoiceActivity extends BaseActivity implements View.OnClick
                 gotoMainActivity();
                 break;
 
+            case R.id.img_sent_sms:
+                gotoSentActivity();
+                break;
+
             default:
                 break;
 
@@ -70,6 +78,11 @@ public class LanguageChoiceActivity extends BaseActivity implements View.OnClick
     //=========== inner methods ====================================================================
     private void gotoMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoSentActivity(){
+        Intent intent = new Intent(this, SmsLogsActivity.class);
         startActivity(intent);
     }
 }

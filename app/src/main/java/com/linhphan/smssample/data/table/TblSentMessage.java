@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.linhphan.androidboilerplate.data.table.BaseTable;
 import com.linhphan.androidboilerplate.util.Logger;
+import com.linhphan.smssample.R;
 
 /**
  * Created by linh on 5/3/2016.
@@ -44,6 +45,65 @@ public class TblSentMessage extends BaseTable {
 
     @Override
     protected void populateData(Context context, SQLiteDatabase database) {
+    }
+
+    //============ inner methods ===================================================================
+    public static String getStatus(Context context, int ordinal){
+        Status status = null;
+        switch (ordinal){
+            case 0:
+                status = Status.Pending;
+                break;
+
+            case 1:
+                status = Status.Sent;
+                break;
+
+            case 2:
+                status = Status.Delivered;
+                break;
+
+            case 3:
+                status = Status.ErrorSend;
+                break;
+
+            case 4:
+                status = Status.ErrorDeliver;
+                break;
+
+            default:
+                break;
+        }
+
+        return getStatus(context, status);
+    }
+
+    public static String getStatus(Context context, Status status){
+        String s = "";
+        switch (status){
+            case Pending:
+                s = context.getString(R.string.pending);
+                break;
+
+            case Sent:
+                s = context.getString(R.string.sent);
+                break;
+
+            case Delivered:
+                s = context.getString(R.string.delivery);
+                break;
+
+            case ErrorSend:
+                s = context.getString(R.string.error_send);
+                break;
+
+            case ErrorDeliver:
+                s = context.getString(R.string.error_delivery);
+                break;
+            default:
+                break;
+        }
+        return s;
     }
 
     //============ inner classes ===================================================================

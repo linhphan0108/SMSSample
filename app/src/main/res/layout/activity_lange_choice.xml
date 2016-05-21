@@ -74,4 +74,25 @@
             android:layout_margin="10dp"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/img_sent_sms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_china"
+            android:layout_margin="10dp"/>
+
+        <ImageView
+            android:id="@+id/img_your_custom_sms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/btn_thailand"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+
 </LinearLayout>

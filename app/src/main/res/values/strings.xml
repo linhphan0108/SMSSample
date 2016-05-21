@@ -1,5 +1,10 @@
 <resources>
+    <!-- common -->
     <string name="app_name">SMSSample</string>
+    <string name="copied">copied</string>
+    <string name="ok">OK</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 
     <!-- languages-->
     <string name="vietnamese">vietnamese</string>
@@ -15,19 +20,27 @@
     <string name="night_greetings_for_boys">night greeting for Boys</string>
     <string name="valentine">valentine</string>
 
-    <!--drawer navigation-->
+    <!-- drawer navigation-->
     <string name="openDrawer">opened</string>
     <string name="closeDrawer">closed</string>
     <string name="sent_message">Sent Sms</string>
 
-    <string name="copied">copied</string>
-    <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
-
-    <!--composer activity-->
+    <!-- composer activity-->
     <string name="to">To:</string>
     <string name="set_time">Time set at:</string>
     <string name="no_selected_phone">Please select a phone number!</string>
     <string name="no_time_set">Please pick a time to send the message</string>
     <string name="time_invalid">time must be set in future</string>
+    <string name="click_more">One More click to edit sms</string>
+    <string name="store_custom_sms">Your Message is storing to database</string>
+    <string name="title_your_content">Your Custom content</string>
+
+    <!--sent sms activity-->
+    <string name="all">all</string>
+    <string name="pending">pending</string>
+    <string name="sent">sent</string>
+    <string name="delivery">pending</string>
+    <string name="error_send">Sending</string>
+    <string name="error_delivery">Delivery</string>
+    <string name="error">Error</string>
 </resources>

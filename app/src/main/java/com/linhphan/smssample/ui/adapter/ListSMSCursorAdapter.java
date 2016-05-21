@@ -47,6 +47,7 @@ public class ListSMSCursorAdapter extends CursorAdapter{
         ImageButton btnSend = (ImageButton) view.findViewById(R.id.btn_send);
         ImageButton btnCopy = (ImageButton) view.findViewById(R.id.btn_copy);
         ImageButton btnShare = (ImageButton) view.findViewById(R.id.btn_share);
+        ImageButton btnEdit = (ImageButton) view.findViewById(R.id.btn_edit);
         ImageButton btnSchedule = (ImageButton) view.findViewById(R.id.btn_schedule);
         ImageView imgStar = (ImageView) view.findViewById(R.id.img_star);
 
@@ -90,6 +91,13 @@ public class ListSMSCursorAdapter extends CursorAdapter{
                 mCallback.onShareButtonClicked(model);
             }
         });
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewUtil.lockViewTemporary(v);
+                mCallback.onEditButtonClicked(model);
+            }
+        });
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,6 +129,7 @@ public class ListSMSCursorAdapter extends CursorAdapter{
         void onSendButtonClicked(SmsModel message);
         void onCopyButtonClicked(SmsModel message);
         void onShareButtonClicked(SmsModel message);
+        void onEditButtonClicked(SmsModel message);
         void onScheduleButtonClicked(SmsModel message);
     }
 }
