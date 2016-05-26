@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -17,7 +18,7 @@ public class ViewUtil {
      * @return the width in dp
      */
     public static float convertPx2Dp(float px){
-        float densityDpi = Resources.getSystem().getDisplayMetrics().density;
+        float densityDpi = Resources.getSystem().getDisplayMetrics().densityDpi;
         return px /(densityDpi /160f);
     }
 
@@ -27,7 +28,7 @@ public class ViewUtil {
      * @return the width in pixel
      */
     public static float convertDp2Px(float dp){
-        float density = Resources.getSystem().getDisplayMetrics().density;
+        float density = Resources.getSystem().getDisplayMetrics().densityDpi;
         return dp * density;
     }
 
@@ -62,4 +63,17 @@ public class ViewUtil {
             }
         }, 2000);
     }
+
+    public static void logPhysicalDeviceScreen(Activity activity){
+        DisplayMetrics metrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+        Logger.d("****", "****************** physical screen size ******************");
+        Logger.d("****", "width "+ metrics.widthPixels + "px => " + convertPx2Dp(metrics.widthPixels) + "dp");
+        Logger.d("****", "height "+ metrics.heightPixels + "px => " + convertPx2Dp(metrics.heightPixels) + "dp");
+        Logger.d("****", "****************** physical screen size ******************");
+
+
+    }
+
 }

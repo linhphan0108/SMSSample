@@ -6,6 +6,10 @@
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
 
+    <!-- menu items -->
+    <string name="sms_logs">Logs</string>
+    <string name="your_sms">Your sms</string>
+
     <!-- languages-->
     <string name="vietnamese">vietnamese</string>
     <string name="english">english</string>
@@ -35,7 +39,7 @@
     <string name="store_custom_sms">Your Message is storing to database</string>
     <string name="title_your_content">Your Custom content</string>
 
-    <!--sent sms activity-->
+    <!--logs sms activity-->
     <string name="all">all</string>
     <string name="pending">pending</string>
     <string name="sent">sent</string>
@@ -43,4 +47,5 @@
     <string name="error_send">Sending</string>
     <string name="error_delivery">Delivery</string>
     <string name="error">Error</string>
+    <string name="which_language">Language?</string>
 </resources>

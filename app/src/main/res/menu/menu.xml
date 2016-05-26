@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_item_logs"
+        android:title="@string/sms_logs"
+        android:icon="@drawable/ic_alarm_check"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_item_custom_sms"
+        android:title="@string/your_sms"
+        android:icon="@drawable/ic_email_open"
+        app:showAsAction="always" />
+</menu>
